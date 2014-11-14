@@ -5,7 +5,7 @@ def main
 	$acreedores.each do |a|
 		$acumulado = 0
 		puts "Para acreedor: " + a.to_s
-		$deudores.map! { |d|
+		$deudores.map! do |d|
 			if(d > 0)
 				puts "el deudor: " + ( $deudores.index( d ) + 1 ).to_s
 				$acumulado += d
@@ -14,14 +14,14 @@ def main
 					puts "Paga: " + ($pago_individual - $resto).to_s
 					d = $resto
 				elsif ( $resto > $pago_individual)
-					puts "otro" + $pago_individual.to_s
+					#puts "otro" + $pago_individual.to_s
 					d = $pago_individual
 				else
 					puts "paga: " + $pago_individual.to_s
 					d = 0
 				end
 			end
-		}
+		end
 		#$deudores.delete_if { |e| e < 0}
 		puts $deudores.to_s
 	end 
