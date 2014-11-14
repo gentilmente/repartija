@@ -20,7 +20,7 @@ def main
 					else
 						puts "paga: " + $pago_individual.to_s
 						#d = 0
-						d.dele
+						#d.dele
 					end
 			#puts " "
 			end
@@ -49,9 +49,11 @@ def Separar_lista()
 		end
 	end
 =end
-
+=begin
 	$acreedores = $saldos.select { |a| a < 0 }
 	$deudores = $saldos.select { |d| d > 0 }
+=end
+	$acreedores, $deudores = $saldos.partition { |e| e < 0 }
 	puts "acreedores: "
 	puts $acreedores.to_s
 	puts "deudores: "
