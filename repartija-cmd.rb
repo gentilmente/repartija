@@ -10,21 +10,19 @@ def main
 				puts "el deudor: " + ( $deudores.index( d ) + 1 ).to_s
 				$acumulado += d
 				$resto = $acumulado + a
-				#$pago_individual
-					if( $resto > 0 && $resto < $pago_individual)
-						puts "Paga: "	+ ($resto).to_s
-						d = $resto
-					elsif ( $resto > $pago_individual)
-						puts "otro" + $pago_individual.to_s
-						d = $pago_individual
-					else
-						puts "paga: " + $pago_individual.to_s
-						#d = 0
-						#d.dele
-					end
-			#puts " "
+				if( $resto > 0 && $resto < $pago_individual)
+					puts "Paga: " + ($pago_individual - $resto).to_s
+					d = $resto
+				elsif ( $resto > $pago_individual)
+					puts "otro" + $pago_individual.to_s
+					d = $pago_individual
+				else
+					puts "paga: " + $pago_individual.to_s
+					d = 0
+				end
 			end
 		}
+		#$deudores.delete_if { |e| e < 0}
 		puts $deudores.to_s
 	end 
 end
@@ -40,19 +38,6 @@ def Preparar_listas()
 end
 
 def Separar_lista()
-=begin
-	$saldos.each do |x|
-		if (x < 0)
-			$acreedores << x
-		else
-			$deudores << x			
-		end
-	end
-=end
-=begin
-	$acreedores = $saldos.select { |a| a < 0 }
-	$deudores = $saldos.select { |d| d > 0 }
-=end
 	$acreedores, $deudores = $saldos.partition { |e| e < 0 }
 	puts "acreedores: "
 	puts $acreedores.to_s
