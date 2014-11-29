@@ -4,28 +4,34 @@ def main
 
     $acreedores.each do |a|
         $acumulado = 0
+        puts
         puts "Para acreedor: " + a.to_s
         $deudores.map! do |d|
             if(d > 0)
+                puts
                 puts "el deudor: " + ( $deudores.index( d ) + 1 ).to_s
                 $acumulado += d
-                puts $resto = $acumulado + a
+                $resto = $acumulado + a
                 if( $resto > 0 && $resto < $pago_individual)
                     puts "Paga: " + ($pago_individual - $resto).to_s
                     d = $resto
-                elsif ( $resto > $pago_individual)
-                    puts "No paga"
-                    d = $pago_individual
                 elsif (d < $pago_individual)
                     puts "ppaga: " + d.to_s
                     d = 0
+                elsif ( $resto > $pago_individual)
+                    puts "No paga"
+                    d = $pago_individual
                 else
                     puts "paga: " + $pago_individual.to_s
                     d = 0
                 end
+                #puts $resto
+
             else
                 d = 0
             end
+            puts $resto
+
         end
         #$deudores.delete_if { |e| e < 0}
         puts $deudores.to_s
@@ -33,7 +39,7 @@ def main
 end
 
 def Preparar_listas()
-    $aportes = [43,27,30,0,0,0,0,0,0,0]
+    $aportes = [43,30,27,0,0,0,0,0,0,0]
     puts $aportes.to_s
     puts "Total: " 
     puts $total = $aportes.reduce(:+)
