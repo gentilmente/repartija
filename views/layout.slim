@@ -1,0 +1,13 @@
+doctype html
+html lang="en"
+  head
+    title== @title || "Repartija"
+    meta charset="utf-8"
+    link rel="stylesheet" href="/styles.css"
+  body
+    header
+      h1 ...Repartija...
+      h3 el comunismo del consumo
+      == slim :nav
+    section
+      == yield

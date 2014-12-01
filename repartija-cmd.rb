@@ -26,6 +26,7 @@ def main
                     d = 0
                 end
                 #puts $resto
+                #
             else
                 d = 0
             end
@@ -56,3 +57,5 @@ def Separar_lista()
 end
 
 main()
+
+class 
