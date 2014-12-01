@@ -26,11 +26,10 @@ def main
                     d = 0
                 end
                 #puts $resto
-
             else
                 d = 0
             end
-            puts $resto
+            #puts $resto
 
         end
         #$deudores.delete_if { |e| e < 0}
@@ -39,7 +38,7 @@ def main
 end
 
 def Preparar_listas()
-    $aportes = [43,30,27,0,0,0,0,0,0,0]
+    $aportes = [43,10,27,0,0,0,120,0,0,0]
     puts $aportes.to_s
     puts "Total: " 
     puts $total = $aportes.reduce(:+)
