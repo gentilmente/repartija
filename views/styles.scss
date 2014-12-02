@@ -12,11 +12,6 @@ h1 {
   font: 32px/1 $main-font;
 }
 
-h3 {
-  color: $red;
-  font-size: 25px;
-}
-
 header h1 {
   font-size: 40px;
   line-height: 80px;
@@ -54,4 +49,8 @@ nav {
 
 p {
   font: 13px/1.4 $main-font;
+}
+
+label {
+  display: block;
 }
