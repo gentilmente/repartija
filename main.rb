@@ -1,25 +1,18 @@
 require 'sinatra'
 
-class String
-  
-  def caesar_shift(shift=1)
-    letters = ("a".."z").to_a
-    ciphertext = []
-    self.downcase.scan( /./ ) do |char|
-      if letters.include?(char)
-        ciphertext << letters[(letters.index(char)+shift)%26]
-      else
-        ciphertext << char
-      end
-    end
-    ciphertext.join.upcase
-  end
-
+def fill_Hash (nombre, cantidad)
+  aporte = Hash.new
+  aporte["nombre"]= nombre
+  aporte["cant"]= cantidad
+  return aporte
 end
 
 helpers do
   def title
-    @title || "Casaer Shift Cipher"
+    @title || "Repartija"
+  end
+  def aportes
+    @aportes = []
   end
 end
 
@@ -28,48 +21,15 @@ get '/' do
 end
 
 post '/' do
-  @title = "Secret Message"
-  @plaintext = params[:plaintext].chomp
-  shift = params[:shift].to_i
-  @ciphertext = @plaintext.caesar_shift(shift)
-  erb :result
-end
-
-
-##### TESTS ######
-
-if ARGV.include? 'test'
-
-  set :environment, :test
-  set :run, false
-
-  require 'test/unit' 
-  require 'rack/test'
-
-
-  class CaesarCipherTest < Test::Unit::TestCase
-    include Rack::Test::Methods
-
-    def app
-      Sinatra::Application
-    end
-    
-    def test_it_can_encrypt_strings
-      assert_equal 'JGNNQ','hello'.caesar_shift(2)
-    end
-
-    def test_it_can_encrypt_with_negative_shifts
-      assert_equal 'GDKKN','hello'.caesar_shift(-1)
-    end
-
-    def test_it_can_encrypt_from_a_URL
-      post '/', params={plaintext: 'hello', shift: '2'}
-      assert last_response.ok?
-      assert last_response.body.include?('hello'.caesar_shift(2))
-    end
-
+  @title = "Resultado"
+  aportes.push( fill_Hash(params[:nombre].chomp, params[:cantidad].to_i))
+  puts aportes
+  @termino = params[:termino]
+  if @termino 
+    erb :result
+  else
+    erb :form
   end
-
 end
 
 ##### VIEWS ######
@@ -84,7 +44,7 @@ __END__
   </head>
   <body>
     <h1>
-      <a href='/''>Caesar Cipher</a>
+      <a href='/'>Repartija</a>
     </h1>
     <%= yield %>
   </body>
@@ -92,15 +52,14 @@ __END__
 
 @@form
   <form action='/' method='POST'>
-    <textarea rows=4 cols=50 name='plaintext'>Enter plaintext</textarea>
-    <input type='number' name='shift' value=1 min=1 max=26>
-    <input type='submit' value='Encrypt'>
+    <input type='text' name='nombre' placeholder='Escriba su nombre'>
+    <input type='number' name='cantidad' placeholder='0'>
+    <input type='checkbox' name='termino' value='último'>
+    <input type='submit' value='enviar'>
   </form>
   
 @@result
-  <p>Plaintext:</p>
-  <p><%= @plaintext %></p>
-  <p>Ciphertext:</p>
-  <p><%= @ciphertext %></p>
-  <a href='/''>Write another message</a>
-
+  <p>nombre:</p>
+  <p><%= aportes %></p>
+  <p>Resultado:</p>
+  <p><%= @aportes[0] %></p>

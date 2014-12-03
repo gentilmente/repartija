@@ -1,7 +1,23 @@
-def main 
-    Preparar_listas()
-    Separar_lista()
 
+def Preparar_listas()
+    $aportes = [43,10,27,0,0,0,120,0,0,0]
+    puts $aportes.to_s
+    puts "Total: " 
+    puts $total = $aportes.reduce(:+)
+    puts "Pago individual: " 
+    puts $pago_individual = $total/$aportes.count
+    $saldos = $aportes.map {|e| $pago_individual - e }
+end
+
+def Separar_lista()
+    $acreedores, $deudores = $saldos.partition { |e| e < 0 }
+    puts "acreedores: "
+    puts $acreedores.to_s
+    puts "deudores: "
+    puts $deudores.to_s 
+end
+
+def Calcular()
     $acreedores.each do |a|
         $acumulado = 0
         puts
@@ -30,29 +46,13 @@ def main
                 d = 0
             end
             #puts $resto
-
+    
         end
         #$deudores.delete_if { |e| e < 0}
         puts $deudores.to_s
     end 
 end
 
-def Preparar_listas()
-    $aportes = [43,10,27,0,0,0,120,0,0,0]
-    puts $aportes.to_s
-    puts "Total: " 
-    puts $total = $aportes.reduce(:+)
-    puts "Pago individual: " 
-    puts $pago_individual = $total/$aportes.count
-    $saldos = $aportes.map {|e| $pago_individual - e }
-end
-
-def Separar_lista()
-    $acreedores, $deudores = $saldos.partition { |e| e < 0 }
-    puts "acreedores: "
-    puts $acreedores.to_s
-    puts "deudores: "
-    puts $deudores.to_s 
-end
-
-main()
+Preparar_listas()
+Separar_lista()
+Calcular()
