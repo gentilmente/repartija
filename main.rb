@@ -1,19 +1,24 @@
 require 'sinatra'
 
-def fill_Hash (nombre, cantidad)
-  aporte = Hash.new
-  aporte["nombre"]= nombre
-  aporte["cant"]= cantidad
-  return aporte
-end
 
 helpers do
+  
+  def fill_Hash (nombre, cantidad)
+    aporte = Hash.new
+    aporte["nombre"]= nombre
+    aporte["cant"]= cantidad
+    puts aporte
+    return aporte
+  end
+  
   def title
     @title || "Repartija"
   end
+  
   def aportes
     @aportes = []
   end
+
 end
 
 get '/' do
@@ -22,8 +27,14 @@ end
 
 post '/' do
   @title = "Resultado"
-  aportes.push( fill_Hash(params[:nombre].chomp, params[:cantidad].to_i))
-  puts aportes
+
+  @aporte = Hash.new
+  @aporte["nombre"]= params[:nombre].chomp
+  @aporte["cant"]= params[:cantidad].to_i
+  @ap = []
+  @ap.push(@aporte)
+  #aportes.push( fill_Hash(params[:nombre].chomp, params[:cantidad].to_i))
+  puts @ap.first["cant"]
   @termino = params[:termino]
   if @termino 
     erb :result
@@ -54,12 +65,12 @@ __END__
   <form action='/' method='POST'>
     <input type='text' name='nombre' placeholder='Escriba su nombre'>
     <input type='number' name='cantidad' placeholder='0'>
-    <input type='checkbox' name='termino' value='último'>
+    <input type='checkbox' name='termino'>
     <input type='submit' value='enviar'>
   </form>
   
 @@result
   <p>nombre:</p>
-  <p><%= aportes %></p>
+  <p><%= @ap.first["nombre"] %></p>
   <p>Resultado:</p>
-  <p><%= @aportes[0] %></p>
+  <p><%= @ap.first["cant"] %></p>
