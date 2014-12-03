@@ -25,9 +25,9 @@ end
 post '/' do
   @title = "Resultado"
   @nombre = params[:nombre].chomp
-  if @aportes[@nombre.to_sym].nil?
-    @aportes[@nombre.to_sym] = params[:cantidad].to_i
-    puts 'aportes'
+  if session[@nombre.to_sym].nil?
+    session[@nombre.to_sym] = params[:cantidad].to_i
+    puts session
   end
 
   @termino = params[:termino]
@@ -66,8 +66,8 @@ __END__
   
 @@result
   <p>nombre:</p>
-  <p><%= aportes.each do |m,r| 
+  <p><%= session.each do |m,r| 
         puts "#{m}: #{r}"
     end %></p>
   <p>Resultado:</p>
-  <p><%= aportes %></p>
+  <p><%= session[:Jorge] %></p>
