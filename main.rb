@@ -1,22 +1,19 @@
 require 'sinatra'
 
+configure do
+  enable :sessions
+  set :session_secret, "My session secret"
+end
+
 
 helpers do
-  
-  def fill_Hash (nombre, cantidad)
-    aporte = Hash.new
-    aporte["nombre"]= nombre
-    aporte["cant"]= cantidad
-    puts aporte
-    return aporte
-  end
-  
+    
   def title
     @title || "Repartija"
   end
   
   def aportes
-    @aportes = []
+    @aportes = {}
   end
 
 end
@@ -27,14 +24,12 @@ end
 
 post '/' do
   @title = "Resultado"
+  @nombre = params[:nombre].chomp
+  if @aportes[@nombre.to_sym].nil?
+    @aportes[@nombre.to_sym] = params[:cantidad].to_i
+    puts 'aportes'
+  end
 
-  @aporte = Hash.new
-  @aporte["nombre"]= params[:nombre].chomp
-  @aporte["cant"]= params[:cantidad].to_i
-  @ap = []
-  @ap.push(@aporte)
-  #aportes.push( fill_Hash(params[:nombre].chomp, params[:cantidad].to_i))
-  puts @ap.first["cant"]
   @termino = params[:termino]
   if @termino 
     erb :result
@@ -71,6 +66,8 @@ __END__
   
 @@result
   <p>nombre:</p>
-  <p><%= @ap.first["nombre"] %></p>
+  <p><%= aportes.each do |m,r| 
+        puts "#{m}: #{r}"
+    end %></p>
   <p>Resultado:</p>
-  <p><%= @ap.first["cant"] %></p>
+  <p><%= aportes %></p>
