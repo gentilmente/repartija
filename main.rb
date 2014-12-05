@@ -1,22 +1,23 @@
 require 'sinatra'
+enable :sessions
 
+configure do
+  set :session_secret, "My session secret"
+  set :aportes, {}
+end
 
 helpers do
-  
-  def fill_Hash (nombre, cantidad)
-    aporte = Hash.new
-    aporte["nombre"]= nombre
-    aporte["cant"]= cantidad
-    puts aporte
-    return aporte
-  end
-  
+    
   def title
     @title || "Repartija"
   end
   
-  def aportes
-    @aportes = []
+  def Set_aportes(uno, dos)
+    settings.aportes[uno.to_sym] ||= dos
+  end
+
+  def Get_aportes()
+    return @aportes
   end
 
 end
@@ -27,16 +28,17 @@ end
 
 post '/' do
   @title = "Resultado"
+  @nombre = params[:nombre].chomp
+  Set_aportes(@nombre, params[:cantidad].to_i)
+  @ap = settings.aportes
+  puts @ap
+  if session[@nombre.to_sym].nil?
+    session[@nombre.to_sym] = params[:cantidad].to_i
+    puts session
+  end
 
-  @aporte = Hash.new
-  @aporte["nombre"]= params[:nombre].chomp
-  @aporte["cant"]= params[:cantidad].to_i
-  @ap = []
-  @ap.push(@aporte)
-  #aportes.push( fill_Hash(params[:nombre].chomp, params[:cantidad].to_i))
-  puts @ap.first["cant"]
-  @termino = params[:termino]
-  if @termino 
+  @finished = params[:finished]
+  if @finished 
     erb :result
   else
     erb :form
@@ -63,14 +65,15 @@ __END__
 
 @@form
   <form action='/' method='POST'>
-    <input type='text' name='nombre' placeholder='Escriba su nombre'>
-    <input type='number' name='cantidad' placeholder='0'>
-    <input type='checkbox' name='termino'>
+    <input type='text' name ='nombre' placeholder='Escriba su  '>
+    <input type='number' name ='cantidad' placeholder='0'>
+    <input type='checkbox' name ='finished'>
     <input type='submit' value='enviar'>
   </form>
   
 @@result
-  <p>nombre:</p>
-  <p><%= @ap.first["nombre"] %></p>
+  
+  <p> Nombre:</p>
+  <p><%= @ap %></p>
   <p>Resultado:</p>
-  <p><%= @ap.first["cant"] %></p>
+  <p><%= session[:Jorge] %></p>
