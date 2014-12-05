@@ -1,10 +1,10 @@
 require 'sinatra'
+enable :sessions
 
 configure do
-  enable :sessions
   set :session_secret, "My session secret"
+  set :aportes, {}
 end
-
 
 helpers do
     
@@ -12,8 +12,12 @@ helpers do
     @title || "Repartija"
   end
   
-  def aportes
-    @aportes = {}
+  def Set_aportes(uno, dos)
+    settings.aportes[uno.to_sym] ||= dos
+  end
+
+  def Get_aportes()
+    return @aportes
   end
 
 end
@@ -25,13 +29,16 @@ end
 post '/' do
   @title = "Resultado"
   @nombre = params[:nombre].chomp
+  Set_aportes(@nombre, params[:cantidad].to_i)
+  @ap = settings.aportes
+  puts @ap
   if session[@nombre.to_sym].nil?
     session[@nombre.to_sym] = params[:cantidad].to_i
     puts session
   end
 
-  @termino = params[:termino]
-  if @termino 
+  @finished = params[:finished]
+  if @finished 
     erb :result
   else
     erb :form
@@ -58,16 +65,15 @@ __END__
 
 @@form
   <form action='/' method='POST'>
-    <input type='text' name='nombre' placeholder='Escriba su nombre'>
-    <input type='number' name='cantidad' placeholder='0'>
-    <input type='checkbox' name='termino'>
+    <input type='text' name ='nombre' placeholder='Escriba su  '>
+    <input type='number' name ='cantidad' placeholder='0'>
+    <input type='checkbox' name ='finished'>
     <input type='submit' value='enviar'>
   </form>
   
 @@result
-  <p>nombre:</p>
-  <p><%= session.each do |m,r| 
-        puts "#{m}: #{r}"
-    end %></p>
+  
+  <p> Nombre:</p>
+  <p><%= @ap %></p>
   <p>Resultado:</p>
   <p><%= session[:Jorge] %></p>
