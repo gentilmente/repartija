@@ -4,6 +4,7 @@ enable :sessions
 configure do
   set :session_secret, "My session secret"
   set :aportes, {}
+  set :saldos, {}
 end
 
 helpers do
@@ -16,10 +17,15 @@ helpers do
     settings.aportes[uno.to_sym] ||= dos
   end
 
-  def Get_aportes()
-    return @aportes
+  def Preparar_listas(aportes)
+      #$aportes = [43,10,27,0,0,0,120,0,0,0]
+      #puts @aportes.to_s
+      puts "Total: " 
+      puts @total = aportes.values.reduce(:+)
+      puts "Pago individual: " 
+      puts @pago_individual = @total/aportes.length
+      settings.saldos = aportes.values.map {|e| @pago_individual - e }
   end
-
 end
 
 get '/' do
@@ -30,8 +36,7 @@ post '/' do
   @title = "Resultado"
   @nombre = params[:nombre].chomp
   Set_aportes(@nombre, params[:cantidad].to_i)
-  @ap = settings.aportes
-  puts @ap
+
   if session[@nombre.to_sym].nil?
     session[@nombre.to_sym] = params[:cantidad].to_i
     puts session
@@ -39,6 +44,9 @@ post '/' do
 
   @finished = params[:finished]
   if @finished 
+    Preparar_listas(settings.aportes)
+    @ap = settings.saldos
+    puts @ap
     erb :result
   else
     erb :form
@@ -72,7 +80,10 @@ __END__
   </form>
   
 @@result
-  
+  <% @ap.each do |m| %>
+  <%= m %></br>
+  <% end %>
+  <h2>Pago individual: </h2> <p><%=@pago_individual%><p>
   <p> Nombre:</p>
   <p><%= @ap %></p>
   <p>Resultado:</p>
