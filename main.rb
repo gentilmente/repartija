@@ -37,6 +37,39 @@ helpers do
     puts settings.deudores.to_s 
   end
 
+  def Calcular()
+      settings.acreedores.each do |a|
+          @acumulado = 0
+          puts "Para acreedor: " + a.to_s
+          settings.deudores.map! do |d|
+              if(d > 0)
+                  puts "el deudor: " + ( settings.deudores.index( d ) + 1 ).to_s
+                  @acumulado += d
+                  @resto = @acumulado + a
+                  if( @resto > 0 && @resto < @pago_individual)
+                      puts "Paga: " + (@pago_individual - @resto).to_s
+                      d = @resto
+                  elsif (d < @pago_individual)
+                      puts "ppaga: " + d.to_s
+                      d = 0
+                  elsif ( @resto > @pago_individual)
+                      puts "No paga"
+                      d = @pago_individual
+                  else
+                      puts "paga: " + @pago_individual.to_s
+                      d = 0
+                  end
+                  #puts $resto
+              else
+                  d = 0
+              end
+              #puts $resto
+          end
+          #$deudores.delete_if { |e| e < 0}
+          puts settings.deudores.to_s
+      end 
+  end
+
 end
 
 get '/' do
@@ -57,6 +90,7 @@ post '/' do
   if @finished 
     Preparar_listas(settings.aportes)
     Separar_lista()
+    Calcular()
     puts @saldos = settings.saldos
     #puts @saldos
     erb :result
