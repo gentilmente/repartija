@@ -5,6 +5,8 @@ configure do
   set :session_secret, "My session secret"
   set :aportes, {}
   set :saldos, {}
+  set :acreedores, {}
+  set :deudores, {}
 end
 
 helpers do
@@ -18,7 +20,7 @@ helpers do
   end
 
   def Preparar_listas(aportes)
-      #$aportes = [43,10,27,0,0,0,120,0,0,0]
+      #@aportes = [43,10,27,0,0,0,120,0,0,0]
       #puts @aportes.to_s
       puts "Total: " 
       puts @total = aportes.values.reduce(:+)
@@ -26,6 +28,15 @@ helpers do
       puts @pago_individual = @total/aportes.length
       settings.saldos = aportes.values.map {|e| @pago_individual - e }
   end
+
+  def Separar_lista()
+    settings.acreedores, settings.deudores = settings.saldos.partition { |e| e < 0 }
+    puts "acreedores: "
+    puts settings.acreedores.to_s
+    puts "deudores: "
+    puts settings.deudores.to_s 
+  end
+
 end
 
 get '/' do
@@ -45,8 +56,9 @@ post '/' do
   @finished = params[:finished]
   if @finished 
     Preparar_listas(settings.aportes)
-    @saldos = settings.saldos
-    puts @saldos
+    Separar_lista()
+    puts @saldos = settings.saldos
+    #puts @saldos
     erb :result
   else
     erb :form
@@ -85,7 +97,7 @@ __END__
   <h4>Pago individual: </h4> <p><%=@pago_individual%><p>
   <p> Nombre:</p>
   <p><%= @ap %></p>
-  <p>Resultado:</p>
+  <p>Saldos:</p>
   <% @saldos.each do |m| %>
-  <%= m %></br>
+  <%= m.to_s + ', '%>
   <% end %>
