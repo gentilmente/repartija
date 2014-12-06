@@ -101,3 +101,11 @@ __END__
   <% @saldos.each do |m| %>
   <%= m.to_s + ', '%>
   <% end %>
+  <p>acreedores:</p>
+  <% settings.acreedores.each do |acreed| %>
+  <%= acreed.to_s + ', '%>
+  <% end %>
+    <p>deudores:</p>
+  <% settings.deudores.each do |deud| %>
+  <%= deud.to_s + ', '%>
+  <% end %>
