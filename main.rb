@@ -37,16 +37,16 @@ post '/' do
   @nombre = params[:nombre].chomp
   Set_aportes(@nombre, params[:cantidad].to_i)
 
-  if session[@nombre.to_sym].nil?
-    session[@nombre.to_sym] = params[:cantidad].to_i
-    puts session
-  end
+#  if session[@nombre.to_sym].nil?
+#    session[@nombre.to_sym] = params[:cantidad].to_i
+#    puts session
+#  end
 
   @finished = params[:finished]
   if @finished 
     Preparar_listas(settings.aportes)
-    @ap = settings.saldos
-    puts @ap
+    @saldos = settings.saldos
+    puts @saldos
     erb :result
   else
     erb :form
@@ -80,11 +80,12 @@ __END__
   </form>
   
 @@result
-  <% @ap.each do |m| %>
-  <%= m %></br>
-  <% end %>
-  <h2>Pago individual: </h2> <p><%=@pago_individual%><p>
+
+  <h3>Total: </h3> <p><%= @total %></p>
+  <h4>Pago individual: </h4> <p><%=@pago_individual%><p>
   <p> Nombre:</p>
   <p><%= @ap %></p>
   <p>Resultado:</p>
-  <p><%= session[:Jorge] %></p>
+  <% @saldos.each do |m| %>
+  <%= m %></br>
+  <% end %>
