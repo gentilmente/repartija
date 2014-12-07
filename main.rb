@@ -29,7 +29,7 @@ helpers do
   end
 
   def Separar_lista()
-    settings.acreedores, settings.deudores = settings.saldos.partition { |e| e < 0 }
+    settings.acreedores, settings.deudores = settings.saldos.partition { |_,e| e < 0 }
     puts "acreedores: "
     puts settings.acreedores.to_s
     puts "deudores: "
@@ -37,29 +37,30 @@ helpers do
   end
 
   def Calcular()
-      settings.acreedores.each do |a|
+      settings.acreedores.each do |nombre_acr, monto_acr|
           @acumulado = 0
-          puts "Para acreedor: " + a.to_s
-          settings.deudores.map! do |d|
-              if(d > 0)
-                  puts "el deudor: " + (settings.deudores.index( d ) + 1 ).to_s
-                  @acumulado += d
-                  @resto = @acumulado + a
+          puts "Para acreedor: " + nombre_acr.to_s
+          #aportes.inject({}){ |hash, (k, v)| hash.merge( k.to_sym => @pago_individual - v )  }
+          settings.deudores.map!.to_h do |nombre_deu, monto_deudor|
+              if(monto_deudor > 0)
+                  puts "el deudor: " + nombre_deu.to_s
+                  @acumulado += monto_deudor
+                  @resto = @acumulado + monto_acr
                   if( @resto > 0 && @resto < @pago_individual)
                       puts "Paga: " + (@pago_individual - @resto).to_s
-                      d = @resto
-                  elsif (d < @pago_individual)
-                      puts "ppaga: " + d.to_s
-                      d = 0
+                      monto_deudor = @resto
+                  elsif (monto_deudor < @pago_individual)
+                      puts "ppaga: " + monto_deudor.to_s
+                      monto_deudor = 0
                   elsif ( @resto > @pago_individual)
                       puts "No paga"
-                      d = @pago_individual
+                      monto_deudor = @pago_individual
                   else
                       puts "paga: " + @pago_individual.to_s
-                      d = 0
+                      monto_deudor = 0
                   end
               else
-                  d = 0
+                  monto_deudor = 0
               end
           end
           puts settings.deudores.to_s
