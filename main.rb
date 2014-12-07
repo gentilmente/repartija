@@ -20,8 +20,6 @@ helpers do
   end
 
   def Preparar_listas(aportes)
-      #@aportes = [43,10,27,0,0,0,120,0,0,0]
-      #puts @aportes.to_s
       puts "Total: " 
       puts @total = aportes.values.reduce(:+)
       puts "Pago individual: " 
@@ -43,7 +41,7 @@ helpers do
           puts "Para acreedor: " + a.to_s
           settings.deudores.map! do |d|
               if(d > 0)
-                  puts "el deudor: " + ( settings.deudores.index( d ) + 1 ).to_s
+                  puts "el deudor: " + (settings.deudores.index( d ) + 1 ).to_s
                   @acumulado += d
                   @resto = @acumulado + a
                   if( @resto > 0 && @resto < @pago_individual)
@@ -59,13 +57,10 @@ helpers do
                       puts "paga: " + @pago_individual.to_s
                       d = 0
                   end
-                  #puts $resto
               else
                   d = 0
               end
-              #puts $resto
           end
-          #$deudores.delete_if { |e| e < 0}
           puts settings.deudores.to_s
       end 
   end
@@ -92,7 +87,6 @@ post '/' do
     Separar_lista()
     Calcular()
     puts @saldos = settings.saldos
-    #puts @saldos
     erb :result
   else
     erb :form
@@ -110,36 +104,34 @@ __END__
     <title><%= title %></title>
   </head>
   <body>
-    <h1>
-      <a href='/'>Repartija</a>
-    </h1>
+    <h1><a href='/'>Repartija</a></h1>
     <%= yield %>
   </body>
 </html>
 
 @@form
   <form action='/' method='POST'>
-    <input type='text' name ='nombre' placeholder='Escriba su  '>
+    <input type='text' name ='nombre' placeholder='Escriba su nombre'>
     <input type='number' name ='cantidad' placeholder='0'>
     <input type='checkbox' name ='finished'>
     <input type='submit' value='enviar'>
   </form>
   
 @@result
-
   <h3>Total: </h3> <p><%= @total %></p>
-  <h4>Pago individual: </h4> <p><%=@pago_individual%><p>
-  <p> Nombre:</p>
-  <p><%= @ap %></p>
+  <h4>Pago individual:</h4> <p><%=@pago_individual%><p>
+  <p> Nombre:</p> <p><%= @ap %></p>
+
   <p>Saldos:</p>
-  <% @saldos.each do |m| %>
-  <%= m.to_s + ', '%>
-  <% end %>
+    <% @saldos.each do |m| %>
+    <%= m.to_s + ', '%>
+    <% end %>
   <p>acreedores:</p>
-  <% settings.acreedores.each do |acreed| %>
-  <%= acreed.to_s + ', '%>
-  <% end %>
-    <p>deudores:</p>
-  <% settings.deudores.each do |deud| %>
-  <%= deud.to_s + ', '%>
-  <% end %>
+    <% settings.acreedores.each do |acreed| %>
+    <%= acreed.to_s + ', '%>
+    <% end %>
+  <p>deudores:</p>
+    <% settings.deudores.each do |deud| %>
+    <%= deud.to_s + ', '%>
+    <% end %>
+
