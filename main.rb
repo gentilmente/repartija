@@ -24,7 +24,8 @@ helpers do
       puts @total = aportes.values.reduce(:+)
       puts "Pago individual: " 
       puts @pago_individual = @total/aportes.length
-      settings.saldos = aportes.values.map {|e| @pago_individual - e }
+      puts settings.saldos = aportes.inject({}){ |hash, (k, v)| hash.merge( k.to_sym => @pago_individual - v )  }
+
   end
 
   def Separar_lista()
