@@ -15,58 +15,64 @@ helpers do
     @title || "Repartija"
   end
   
-  def Set_aportes(uno, dos)
+  def set_aportes(uno, dos)
     settings.aportes[uno.to_sym] ||= dos
   end
 
-  def Preparar_listas(aportes)
-      puts "Total: " 
-      puts @total = aportes.values.reduce(:+)
-      puts "Pago individual: " 
-      puts @pago_individual = @total/aportes.length
-      puts settings.saldos = aportes.inject({}){ |hash, (k, v)| hash.merge( k.to_sym => @pago_individual - v )  }
+  def preparar_listas(aportes)
+    puts "Total: " 
+    puts @total = aportes.values.reduce(:+)
+    puts "Pago individual: " 
+    puts @pago_individual = @total/aportes.length
+    puts settings.saldos = aportes.inject({}){ |hash, (k, v)| hash.merge( k.to_sym => @pago_individual - v )  }
 
   end
 
-  def Separar_lista()
+  def separar_lista()
     settings.acreedores, settings.deudores = settings.saldos.partition { |_,e| e < 0 }
+    settings.acreedores = settings.acreedores.to_h 
+    settings.deudores = settings.deudores.to_h
     puts "acreedores: "
     puts settings.acreedores.to_s
     puts "deudores: "
     puts settings.deudores.to_s 
   end
 
-  def Calcular()
-      settings.acreedores.each do |nombre_acr, monto_acr|
-          @acumulado = 0
-          puts "Para acreedor: " + nombre_acr.to_s
-          #aportes.inject({}){ |hash, (k, v)| hash.merge( k.to_sym => @pago_individual - v )  }
-          settings.deudores.map!.to_h do |nombre_deu, monto_deudor|
-              if(monto_deudor > 0)
-                  puts "el deudor: " + nombre_deu.to_s
-                  @acumulado += monto_deudor
-                  @resto = @acumulado + monto_acr
-                  if( @resto > 0 && @resto < @pago_individual)
-                      puts "Paga: " + (@pago_individual - @resto).to_s
-                      monto_deudor = @resto
-                  elsif (monto_deudor < @pago_individual)
-                      puts "ppaga: " + monto_deudor.to_s
-                      monto_deudor = 0
-                  elsif ( @resto > @pago_individual)
-                      puts "No paga"
-                      monto_deudor = @pago_individual
-                  else
-                      puts "paga: " + @pago_individual.to_s
-                      monto_deudor = 0
-                  end
-              else
-                  monto_deudor = 0
-              end
-          end
-          puts settings.deudores.to_s
-      end 
-  end
+  def calcular()
+    settings.acreedores.each do |nombre_acr, monto_acr|
+      @acumulado = 0
+      puts'----------------------'
+      puts "Para acreedor: " + nombre_acr.to_s
+      my_hash = settings.deudores
+      my_hash.each  do |k, v| 
+        if(v > 0)
+          puts "el deudor: " + k.to_s
+          @acumulado += v
+          @resto = @acumulado + monto_acr
 
+          if( @resto > 0 && @resto < @pago_individual)
+            puts "Paga: " + (@pago_individual - @resto).to_s
+            my_hash[k] = @resto
+
+          elsif (v < @pago_individual)
+            puts "ppaga: " + v.to_s
+            my_hash[k] = 0
+
+          elsif ( @resto > @pago_individual)
+            puts "No paga"
+            my_hash[k] = @pago_individual
+
+          else
+            puts "paga: " + @pago_individual.to_s
+            my_hash[k] = 0
+          end
+        else
+          my_hash[k] = 0
+        end
+        #puts settings.deudores.to_s
+      end 
+    end 
+  end
 end
 
 get '/' do
@@ -115,7 +121,7 @@ __END__
   <form action='/' method='POST'>
     <input type='text' name ='nombre' placeholder='Escriba su nombre'>
     <input type='number' name ='cantidad' placeholder='0'>
-    <input type='checkbox' name ='finished'>
+    <label><input type='checkbox' name ='finished'>Listo todos</label>
     <input type='submit' value='enviar'>
   </form>
   
@@ -129,11 +135,12 @@ __END__
     <%= m.to_s + ', '%>
     <% end %>
   <p>acreedores:</p>
-    <% settings.acreedores.each do |acreed| %>
-    <%= acreed.to_s + ', '%>
+    <% settings.acreedores.each do |key, value| %>
+    <%= "#{key}: #{value}" + ', '%>
     <% end %>
   <p>deudores:</p>
-    <% settings.deudores.each do |deud| %>
-    <%= deud.to_s + ', '%>
+    <% settings.deudores.each do |key, value| %>
+    <%= "#{key}: #{value}" + ', '%>
     <% end %>
+
 

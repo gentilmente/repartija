@@ -1,6 +1,6 @@
 
 def Preparar_listas()
-    $aportes = [43,10,27,14,0,0,106,0,0,0]
+    $aportes = [123,123,0,0,0,0]
     puts $aportes.to_s
     puts "Total: " 
     puts $total = $aportes.reduce(:+)
