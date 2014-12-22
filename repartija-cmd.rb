@@ -17,6 +17,7 @@ def Separar_lista()
     puts "deudores: "
     puts $deudores.to_s 
     puts '- -- - -- - -- -'
+    puts '- -- - -- - -- -'
 end
 
 def Calcular()
@@ -25,6 +26,8 @@ def Calcular()
         puts
         puts "Para acreedor: " + a.to_s
         $deudores.each do |d|
+            puts a
+            puts d
             if(d > 0 && a < 0)
                 puts "el deudor: " + ( $deudores.index( d ) + 1 ).to_s
                 puts $acumulado += $pago_individual
@@ -39,7 +42,7 @@ def Calcular()
                     $deudores[$deudores.index(d)] =  0
                 elsif ( $resta_pagar > $pago_individual)
                     puts "No paga"
-                    $deudores[$deudores.index(d)] =  $pago_individual
+                    $deudores[$deudores.index(d)] =  $pago_indiivdual
                 else
                     puts "paga: " + $pago_individual.to_s
                     $deudores[$deudores.index(d)] =  0

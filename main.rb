@@ -1,4 +1,7 @@
+#require 'bundler'
+#Bundler.setup
 require 'sinatra'
+
 enable :sessions
 
 configure do
@@ -82,7 +85,7 @@ end
 post '/' do
   @title = "Resultado"
   @nombre = params[:nombre].chomp
-  Set_aportes(@nombre, params[:cantidad].to_i)
+  set_aportes(@nombre, params[:cantidad].to_i)
 
 #  if session[@nombre.to_sym].nil?
 #    session[@nombre.to_sym] = params[:cantidad].to_i
@@ -91,9 +94,9 @@ post '/' do
 
   @finished = params[:finished]
   if @finished 
-    Preparar_listas(settings.aportes)
-    Separar_lista()
-    Calcular()
+    preparar_listas(settings.aportes)
+    separar_lista()
+    calcular()
     puts @saldos = settings.saldos
     erb :result
   else
