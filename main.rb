@@ -24,12 +24,12 @@ helpers do
 
   def hard_code_aportes()
     settings.aportes = { 
-      "Bufarra" => 123, 
-      "Martin" => 60,  
+      "Bufarra" => 125, 
+      "Martin" => 125,  
       "Joni" => 0,  
-      "Pedro" => 60,  
-      "Cachi" => 60,  
-      "Gisela" => 60,
+      "Pedro" => 0,  
+      #{}"Cachi" => 60, 
+      #{}"Gisela" => 60,
       "Eze" => 0  
     }
   end
@@ -56,32 +56,38 @@ helpers do
     settings.acreedores.each do |nombre_acr, monto_acr|
       @acumulado = 0
       puts'----------------------'
-      puts "Para acreedor: " + nombre_acr.to_s
+      puts "Para acreedor: " + nombre_acr.to_s + monto_acr.to_s
       settings.deudores.each  do |k, v| 
-        if(v > 0)
+        if(v > 0 && monto_acr < 0)
           puts "el deudor: " + k.to_s
-          @acumulado += v
-          @resto = @acumulado + monto_acr
+          puts @acumulado += v
+          puts @resta_pagar = @acumulado + monto_acr
 
-          if( @resto > 0 && @resto < @pago_individual)
-            puts "Paga: " + (@pago_individual - @resto).to_s
-            settings.deudores[k] = @resto
+          if( @resta_pagar > 0 && @resta_pagar < @pago_individual)
+            puts "Paga: " + (@pago_individual - @resta_pagar).to_s
+            settings.deudores[k] = @resta_pagar
             settings.acreedores[nombre_acr] += @pago_individual
+
           elsif (v < @pago_individual)
             puts "ppaga: " + v.to_s
             settings.deudores[k] = 0
-
-          elsif ( @resto > @pago_individual)
-            puts "No paga"
-            settings.deudores[k] = @pago_individual
+            settings.acreedores[nombre_acr] += v
 
           else
             puts "paga: " + @pago_individual.to_s
             settings.deudores[k] = 0
+            settings.acreedores[nombre_acr] += @pago_individual
+
+          ##ya evito entrar si el acreedor se saldó  
+          #elsif ( @resta_pagar > @pago_individual)
+            #puts "No paga"
+            #settings.deudores[k] = @pago_individual
+
           end
-        else
-          settings.deudores[k] = 0
+        #else
+          #settings.deudores[k] = 0
         end
+        puts settings.acreedores.to_s
         puts settings.deudores.to_s
       end 
     end 

@@ -42,7 +42,7 @@ def Calcular()
                     $deudores[$deudores.index(d)] =  0
                 elsif ( $resta_pagar > $pago_individual)
                     puts "No paga"
-                    $deudores[$deudores.index(d)] =  $pago_indiivdual
+                    $deudores[$deudores.index(d)] =  $pago_individual
                 else
                     puts "paga: " + $pago_individual.to_s
                     $deudores[$deudores.index(d)] =  0
