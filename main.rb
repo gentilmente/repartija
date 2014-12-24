@@ -22,13 +22,24 @@ helpers do
     settings.aportes[uno.to_sym] ||= dos
   end
 
+  def hard_code_aportes()
+    settings.aportes = { 
+      "Bufarra" => 123, 
+      "Martin" => 60,  
+      "Joni" => 0,  
+      "Pedro" => 60,  
+      "Cachi" => 60,  
+      "Gisela" => 60,
+      "Eze" => 0  
+    }
+  end
+
   def preparar_listas(aportes)
     puts "Total: " 
     puts @total = aportes.values.reduce(:+)
     puts "Pago individual: " 
     puts @pago_individual = @total/aportes.length
     puts settings.saldos = aportes.inject({}){ |hash, (k, v)| hash.merge( k.to_sym => @pago_individual - v )  }
-
   end
 
   def separar_lista()
@@ -46,8 +57,7 @@ helpers do
       @acumulado = 0
       puts'----------------------'
       puts "Para acreedor: " + nombre_acr.to_s
-      my_hash = settings.deudores
-      my_hash.each  do |k, v| 
+      settings.deudores.each  do |k, v| 
         if(v > 0)
           puts "el deudor: " + k.to_s
           @acumulado += v
@@ -55,24 +65,24 @@ helpers do
 
           if( @resto > 0 && @resto < @pago_individual)
             puts "Paga: " + (@pago_individual - @resto).to_s
-            my_hash[k] = @resto
-
+            settings.deudores[k] = @resto
+            settings.acreedores[nombre_acr] += @pago_individual
           elsif (v < @pago_individual)
             puts "ppaga: " + v.to_s
-            my_hash[k] = 0
+            settings.deudores[k] = 0
 
           elsif ( @resto > @pago_individual)
             puts "No paga"
-            my_hash[k] = @pago_individual
+            settings.deudores[k] = @pago_individual
 
           else
             puts "paga: " + @pago_individual.to_s
-            my_hash[k] = 0
+            settings.deudores[k] = 0
           end
         else
-          my_hash[k] = 0
+          settings.deudores[k] = 0
         end
-        #puts settings.deudores.to_s
+        puts settings.deudores.to_s
       end 
     end 
   end
@@ -85,7 +95,8 @@ end
 post '/' do
   @title = "Resultado"
   @nombre = params[:nombre].chomp
-  set_aportes(@nombre, params[:cantidad].to_i)
+  #set_aportes(@nombre, params[:cantidad].to_i)
+  hard_code_aportes()
 
 #  if session[@nombre.to_sym].nil?
 #    session[@nombre.to_sym] = params[:cantidad].to_i
@@ -132,6 +143,7 @@ __END__
   <h3>Total: </h3> <p><%= @total %></p>
   <h4>Pago individual:</h4> <p><%=@pago_individual%><p>
   <p> Nombre:</p> <p><%= @ap %></p>
+  <p> Pusieron: </p> <p><%= settings.aportes %></p>
 
   <p>Saldos:</p>
     <% @saldos.each do |m| %>
