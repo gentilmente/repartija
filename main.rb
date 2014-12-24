@@ -58,15 +58,18 @@ helpers do
       puts'----------------------'
       puts "Para acreedor: " + nombre_acr.to_s + monto_acr.to_s
       settings.deudores.each  do |k, v| 
+        puts "monto acreedor: " + monto_acr.to_s
         if(v > 0 && monto_acr < 0)
           puts "el deudor: " + k.to_s
-          puts @acumulado += v
-          puts @resta_pagar = @acumulado + monto_acr
+          @acumulado += v
+          @resta_pagar = @acumulado + monto_acr
+          puts "acumulado: " + @acumulado.to_s
+          puts "resta_pagar: " + @resta_pagar.to_s
 
           if( @resta_pagar > 0 && @resta_pagar < @pago_individual)
             puts "Paga: " + (@pago_individual - @resta_pagar).to_s
             settings.deudores[k] = @resta_pagar
-            settings.acreedores[nombre_acr] += @pago_individual
+            settings.acreedores[nombre_acr] += @pago_individual - @resta_pagar
 
           elsif (v < @pago_individual)
             puts "ppaga: " + v.to_s
@@ -78,14 +81,7 @@ helpers do
             settings.deudores[k] = 0
             settings.acreedores[nombre_acr] += @pago_individual
 
-          ##ya evito entrar si el acreedor se saldó  
-          #elsif ( @resta_pagar > @pago_individual)
-            #puts "No paga"
-            #settings.deudores[k] = @pago_individual
-
           end
-        #else
-          #settings.deudores[k] = 0
         end
         puts settings.acreedores.to_s
         puts settings.deudores.to_s
@@ -148,7 +144,7 @@ __END__
 @@result
   <h3>Total: </h3> <p><%= @total %></p>
   <h4>Pago individual:</h4> <p><%=@pago_individual%><p>
-  <p> Nombre:</p> <p><%= @ap %></p>
+  <p> Nombre:</p> <p><%= @nombre %></p>
   <p> Pusieron: </p> <p><%= settings.aportes %></p>
 
   <p>Saldos:</p>
