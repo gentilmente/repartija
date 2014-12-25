@@ -29,7 +29,7 @@ helpers do
       "Joni" => 0,  
       "Pedro" => 0,  
       #{}"Cachi" => 60, 
-      #{}"Gisela" => 60,
+      #{}"Gisela" => 68,
       "Eze" => 0  
     }
   end
@@ -55,11 +55,12 @@ helpers do
   def calcular()
     settings.acreedores.each do |nombre_acr, monto_acr|
       @acumulado = 0
-      puts'----------------------'
+      puts'--------------------------------'
       puts "Para acreedor: " + nombre_acr.to_s + monto_acr.to_s
       settings.deudores.each  do |k, v| 
         puts "monto acreedor: " + monto_acr.to_s
         if(v > 0 && monto_acr < 0)
+          puts
           puts "el deudor: " + k.to_s
           @acumulado += v
           @resta_pagar = @acumulado + monto_acr
@@ -76,7 +77,7 @@ helpers do
             settings.deudores[k] = 0
             settings.acreedores[nombre_acr] += v
 
-          else
+          elsif (@resta_pagar <= 0)
             puts "paga: " + @pago_individual.to_s
             settings.deudores[k] = 0
             settings.acreedores[nombre_acr] += @pago_individual
