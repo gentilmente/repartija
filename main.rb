@@ -24,11 +24,11 @@ helpers do
 
   def hard_code_aportes()
     settings.aportes = { 
-      "Bufarra" => 125, 
+      "Bufarra" => 25, 
       "Martin" => 125,  
       "Joni" => 0,  
       "Pedro" => 0,  
-      #{}"Cachi" => 60, 
+      "Cachi" => 60, 
       "Gisela" => 26,
       "Eze" => 0  
     }
