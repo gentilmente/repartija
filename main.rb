@@ -29,7 +29,7 @@ helpers do
       "Joni" => 0,  
       "Pedro" => 0,  
       #{}"Cachi" => 60, 
-      #{}"Gisela" => 68,
+      "Gisela" => 128,
       "Eze" => 0  
     }
   end
@@ -55,30 +55,30 @@ helpers do
   def calcular()
     settings.acreedores.each do |nombre_acr, monto_acr|
       @acumulado = 0
-      puts'--------------------------------'
-      puts "Para acreedor: " + nombre_acr.to_s + monto_acr.to_s
+      puts'----------------------------------------------'
+      puts "\t\t\t\t\t\t\tPara acreedor: " + nombre_acr.to_s + monto_acr.to_s
       settings.deudores.each  do |k, v| 
         puts "monto acreedor: " + monto_acr.to_s
+        puts
+        puts "\t\t\t\t\t\t\tel deudor: " + k.to_s
         if(v > 0 && monto_acr < 0)
-          puts
-          puts "el deudor: " + k.to_s
           @acumulado += v
           @resta_pagar = @acumulado + monto_acr
           puts "acumulado: " + @acumulado.to_s
           puts "resta_pagar: " + @resta_pagar.to_s
 
           if( @resta_pagar > 0 && @resta_pagar < @pago_individual)
-            puts "Paga: " + (@pago_individual - @resta_pagar).to_s
+            puts "\t\t\t\t\t\t\tPaga: " + (@pago_individual - @resta_pagar).to_s
             settings.deudores[k] = @resta_pagar
             settings.acreedores[nombre_acr] += @pago_individual - @resta_pagar
 
           elsif (v < @pago_individual)
-            puts "ppaga: " + v.to_s
+            puts "\t\t\t\t\t\t\tppaga: " + v.to_s
             settings.deudores[k] = 0
             settings.acreedores[nombre_acr] += v
 
           elsif (@resta_pagar <= 0)
-            puts "paga: " + @pago_individual.to_s
+            puts "\t\t\t\t\t\t\tpaga: " + @pago_individual.to_s
             settings.deudores[k] = 0
             settings.acreedores[nombre_acr] += @pago_individual
 
