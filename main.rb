@@ -35,11 +35,12 @@ helpers do
   end
 
   def preparar_listas(aportes)
+    puts
     puts "Total: " 
     puts @total = aportes.values.reduce(:+)
     puts "Pago individual: " 
     puts @pago_individual = @total/aportes.length
-    puts settings.saldos = aportes.inject({}){ |hash, (k, v)| hash.merge( k.to_sym => @pago_individual - v )  }
+    settings.saldos = aportes.inject({}){ |hash, (k, v)| hash.merge( k.to_sym => @pago_individual - v )  }
   end
 
   def separar_lista()
@@ -56,41 +57,42 @@ helpers do
     settings.acreedores.each do |nombre_acr, monto_acr|
       @monto_acr_actual = monto_acr
       @acumulado = 0
-      puts'----------------------------------------------'
-      puts "\t\t\t\t\t\t\tPara acreedor: " + nombre_acr.to_s + monto_acr.to_s
+      puts'-------------------------------------------------------------------------'
+      puts "Para acreedor: " + nombre_acr.to_s + monto_acr.to_s
       settings.deudores.each  do |k, v| 
-        puts "monto acreedor: " + monto_acr.to_s
-        puts
-        puts "\t\t\t\t\t\t\tel deudor: " + k.to_s
+        #puts "monto acreedor: " + monto_acr.to_s
+        #puts
         if(v > 0 && @monto_acr_actual < 0)
+          puts "el deudor: " + k.to_s
           @acumulado += v
           @resta_pagar = @acumulado + monto_acr
-          puts "acumulado: " + @acumulado.to_s
-          puts "resta_pagar: " + @resta_pagar.to_s
+          #puts "acumulado: " + @acumulado.to_s
+          #puts "resta_pagar: " + @resta_pagar.to_s
 
           if( @resta_pagar > 0 && @resta_pagar < @pago_individual)
-            puts "\t\t\t\t\t\t\tPaga: " + (@pago_individual - @resta_pagar).to_s
+            puts "Paga: " + (@pago_individual - @resta_pagar).to_s
             settings.deudores[k] = @resta_pagar
             settings.acreedores[nombre_acr] += @pago_individual - @resta_pagar
             @monto_acr_actual = settings.acreedores[nombre_acr]
           elsif (v < @pago_individual)
-            puts "\t\t\t\t\t\t\tppaga: " + v.to_s
+            puts "ppaga: " + v.to_s
             settings.deudores[k] = 0
             settings.acreedores[nombre_acr] += v
             @monto_acr_actual = settings.acreedores[nombre_acr]
 
           elsif (@resta_pagar <= 0)
-            puts "\t\t\t\t\t\t\tpaga: " + @pago_individual.to_s
+            puts "paga: " + @pago_individual.to_s
             settings.deudores[k] = 0
             settings.acreedores[nombre_acr] += @pago_individual
             @monto_acr_actual = settings.acreedores[nombre_acr]
 
           end
         end
-        puts settings.acreedores.to_s
-        puts settings.deudores.to_s
+        #puts settings.acreedores.to_s
+        #puts settings.deudores.to_s
       end 
-    end 
+    end
+    puts'-------------------------------------------------------------------------' 
   end
 end
 
@@ -114,7 +116,7 @@ post '/' do
     preparar_listas(settings.aportes)
     separar_lista()
     calcular()
-    puts @saldos = settings.saldos
+    @saldos = settings.saldos
     erb :result
   else
     erb :form
