@@ -103,8 +103,8 @@ end
 post '/' do
   @title = "Resultado"
   @nombre = params[:nombre].chomp
-  set_aportes(@nombre, params[:cantidad].to_i)
-  #hard_code_aportes()
+  #set_aportes(@nombre, params[:cantidad].to_i)
+  hard_code_aportes()
 
 #  if session[@nombre.to_sym].nil?
 #    session[@nombre.to_sym] = params[:cantidad].to_i
@@ -148,22 +148,29 @@ __END__
   </form>
   
 @@result
-  <h3>Total: </h3> <p><%= @total %></p>
+  <h3>TOTAL: </h3> <p><%= @total %></p>
   <h4>Pago individual:</h4> <p><%=@pago_individual%><p>
-  <p> Nombre:</p> <p><%= @nombre %></p>
-  <p> Pusieron: </p> <p><%= settings.aportes %></p>
-
-  <p>Saldos:</p>
+  <p> Pusieron: <%= settings.aportes %></p>
+  <p> Saldos:  
     <% @saldos.each do |m| %>
-    <%= m.to_s + ', '%>
-    <% end %>
-  <p>acreedores:</p>
-    <% settings.acreedores.each do |key, value| %>
-    <%= "#{key}: #{value}" + ', '%>
-    <% end %>
-  <p>deudores:</p>
-    <% settings.deudores.each do |key, value| %>
-    <%= "#{key}: #{value}" + ', '%>
-    <% end %>
-
+    <%= m.to_s%>
+    <% end %>  
+  </p>
+  <ul>
+    <li>
+      <p> ACREEDORES:  
+        <% settings.acreedores.each do |key, value| %>
+        <%= "#{key}: #{value}" + ', '%>
+        <% end %>  
+      </p>
+    </li>
+    <li>
+      <p> DEUDORES:  
+        <% settings.deudores.each do |key, value| %>
+        <%= "#{key}: #{value}" + ', '%>
+        <% end %>  
+      </p>
+    </li>
+  </ul>
+  <p> Nombre:</p> <p><%= @nombre %></p>
 
