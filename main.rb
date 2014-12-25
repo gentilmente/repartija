@@ -103,8 +103,8 @@ end
 post '/' do
   @title = "Resultado"
   @nombre = params[:nombre].chomp
-  #set_aportes(@nombre, params[:cantidad].to_i)
-  hard_code_aportes()
+  set_aportes(@nombre, params[:cantidad].to_i)
+  #hard_code_aportes()
 
 #  if session[@nombre.to_sym].nil?
 #    session[@nombre.to_sym] = params[:cantidad].to_i
