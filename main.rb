@@ -29,7 +29,7 @@ helpers do
       "Joni" => 0,  
       "Pedro" => 0,  
       "Cachi" => 60, 
-      "Gisela" => 26,
+      #{}"Gisela" => 26,
       "Eze" => 0  
     }
   end
@@ -132,8 +132,10 @@ __END__
   <head>
     <meta charset="utf-8">
     <title><%= title %></title>
+    <link rel="stylesheet" href="styles.css">
   </head>
   <body>
+  <div></div>
     <h1><a href='/'>Repartija</a></h1>
     <%= yield %>
   </body>
@@ -141,6 +143,7 @@ __END__
 
 @@form
   <form action='/' method='POST'>
+    <p>No mas ebrios haciendo cuentas</p>
     <input type='text' name ='nombre' placeholder='Escriba su nombre'>
     <input type='number' name ='cantidad' placeholder='0'>
     <label><input type='checkbox' name ='finished'>Listo todos</label>
@@ -148,22 +151,29 @@ __END__
   </form>
   
 @@result
-  <h3>Total: </h3> <p><%= @total %></p>
+  <h3>TOTAL: </h3> <p><%= @total %></p>
   <h4>Pago individual:</h4> <p><%=@pago_individual%><p>
-  <p> Nombre:</p> <p><%= @nombre %></p>
-  <p> Pusieron: </p> <p><%= settings.aportes %></p>
-
-  <p>Saldos:</p>
+  <p> Pusieron: <%= settings.aportes %></p>
+  <p> Saldos:  
     <% @saldos.each do |m| %>
-    <%= m.to_s + ', '%>
-    <% end %>
-  <p>acreedores:</p>
-    <% settings.acreedores.each do |key, value| %>
-    <%= "#{key}: #{value}" + ', '%>
-    <% end %>
-  <p>deudores:</p>
-    <% settings.deudores.each do |key, value| %>
-    <%= "#{key}: #{value}" + ', '%>
-    <% end %>
-
+    <%= m.to_s%>
+    <% end %>  
+  </p>
+  <ul>
+    <li>
+      <p> ACREEDORES:  
+        <% settings.acreedores.each do |key, value| %>
+        <%= "#{key}: #{value}" + ', '%>
+        <% end %>  
+      </p>
+    </li>
+    <li>
+      <p> DEUDORES:  
+        <% settings.deudores.each do |key, value| %>
+        <%= "#{key}: #{value}" + ', '%>
+        <% end %>  
+      </p>
+    </li>
+  </ul>
+  <p> Nombre:</p> <p><%= @nombre %></p>
 
