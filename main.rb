@@ -29,7 +29,7 @@ helpers do
       "Joni" => 0,  
       "Pedro" => 0,  
       "Cachi" => 60, 
-      "Gisela" => 26,
+      #{}"Gisela" => 26,
       "Eze" => 0  
     }
   end
@@ -103,8 +103,8 @@ end
 post '/' do
   @title = "Resultado"
   @nombre = params[:nombre].chomp
-  #set_aportes(@nombre, params[:cantidad].to_i)
-  hard_code_aportes()
+  set_aportes(@nombre, params[:cantidad].to_i)
+  #hard_code_aportes()
 
 #  if session[@nombre.to_sym].nil?
 #    session[@nombre.to_sym] = params[:cantidad].to_i
@@ -132,8 +132,10 @@ __END__
   <head>
     <meta charset="utf-8">
     <title><%= title %></title>
+    <link rel="stylesheet" href="styles.css">
   </head>
   <body>
+  <div></div>
     <h1><a href='/'>Repartija</a></h1>
     <%= yield %>
   </body>
@@ -141,6 +143,7 @@ __END__
 
 @@form
   <form action='/' method='POST'>
+    <p>No mas ebrios haciendo cuentas</p>
     <input type='text' name ='nombre' placeholder='Escriba su nombre'>
     <input type='number' name ='cantidad' placeholder='0'>
     <label><input type='checkbox' name ='finished'>Listo todos</label>
