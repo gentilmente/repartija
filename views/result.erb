@@ -1,0 +1,25 @@
+<h3>TOTAL: </h3> <p><%= @total %></p>
+  <h4>Pago individual:</h4> <p><%=@pago_individual%><p>
+  <p> Pusieron: <%= settings.aportes %></p>
+  <p> Saldos:  
+    <% @saldos.each do |m| %>
+    <%= m.to_s%>
+    <% end %>  
+  </p>
+  <ul>
+    <li>
+      <p> ACREEDORES:  
+        <% settings.acreedores.each do |key, value| %>
+        <%= "#{key}: #{value}" + ', '%>
+        <% end %>  
+      </p>
+    </li>
+    <li>
+      <p> DEUDORES:  
+        <% settings.deudores.each do |key, value| %>
+        <%= "#{key}: #{value}" + ', '%>
+        <% end %>  
+      </p>
+    </li>
+  </ul>
+  <p> Nombre:</p> <p><%= @nombre %></p>
