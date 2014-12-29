@@ -24,12 +24,12 @@ helpers do
 
   def hard_code_aportes()
     settings.aportes = { 
-      "Bufarra" => 25, 
-      "Martin" => 125,  
-      "Joni" => 0,  
+      "Bufarra" => 40, 
+      "Martin" => 600,  
+      "Joni" => 150,  
       "Pedro" => 0,  
-      "Cachi" => 60, 
-      #{}"Gisela" => 26,
+      "Cachi" => 0, 
+      "Gisela" => 200,
       "Eze" => 0  
     }
   end
@@ -103,8 +103,8 @@ end
 post '/' do
   @title = "Resultado"
   @nombre = params[:nombre].chomp
-  set_aportes(@nombre, params[:cantidad].to_i)
-  #hard_code_aportes()
+  #set_aportes(@nombre, params[:cantidad].to_i)
+  hard_code_aportes()
 
 #  if session[@nombre.to_sym].nil?
 #    session[@nombre.to_sym] = params[:cantidad].to_i

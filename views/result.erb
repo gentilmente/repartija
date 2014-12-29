@@ -1,25 +1,35 @@
-<h3>TOTAL: </h3> <p><%= @total %></p>
-  <h4>Pago individual:</h4> <p><%=@pago_individual%><p>
-  <p> Pusieron: <%= settings.aportes %></p>
-  <p> Saldos:  
+<div>  
+  <h3>
+    <p class="izq">Total:  <%= @total %></p>
+    <p class="der">Pago individual: <%=@pago_individual%><p>
+  </h3>
+</div>
+<div style="clear: both;"></div>
+<p class="izq"> Pusieron: <%= settings.aportes %></p>
+<div class="izq"> Saldos:  
+  <ul class="izq">
     <% @saldos.each do |m| %>
-    <%= m.to_s%>
+    <li><%= m.to_s%></li>
     <% end %>  
-  </p>
-  <ul>
-    <li>
-      <p> ACREEDORES:  
-        <% settings.acreedores.each do |key, value| %>
-        <%= "#{key}: #{value}" + ', '%>
-        <% end %>  
-      </p>
-    </li>
-    <li>
-      <p> DEUDORES:  
-        <% settings.deudores.each do |key, value| %>
-        <%= "#{key}: #{value}" + ', '%>
-        <% end %>  
-      </p>
-    </li>
   </ul>
-  <p> Nombre:</p> <p><%= @nombre %></p>
+</div>
+<div style="clear: both;"></div>
+
+<ul>
+  <li class="izq">
+    <p> ACREEDORES:  
+      <% settings.acreedores.each do |key, value| %>
+      <%= "#{key}: #{value}" + ', '%>
+      <% end %>  
+    </p>
+  </li>
+  <li class="izq">
+    <p> DEUDORES:  
+      <% settings.deudores.each do |key, value| %>
+      <%= "#{key}: #{value}" + ', '%>
+      <% end %>  
+    </p>
+  </li>
+</ul>
+<div style="clear: both;"></div>
+<p> Nombre:</p> <p><%= @nombre %></p>

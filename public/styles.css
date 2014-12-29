@@ -23,16 +23,28 @@ a {
 
 div {
 	margin-top: 15px;
-	display: inline-block;
-	vertical-align: top;
+	//display: inline-block;
+	//vertical-align: middle;
+}
+
+p {
+	margin-left: 100px;
+}
+
+.izq {
+	float: left;
+}
+.der {
+	float: right;
+	margin-right: 100px;
 }
 
 input {
   position: relative;
-  //margin: 1em;
+  margin: 1em;
   border: 0;
   padding: 10px;
-  font-size: 18px;
+  font-size: 28px;
 }
 
 input[type="submit"] {
@@ -42,8 +54,8 @@ input[type="submit"] {
 
 input[type=radio].css-checkbox {
 	position:absolute; 
-	z-index:-1000;
-	left:-1000px;
+	//z-index:-1000;
+	//left:-1000px;
 	overflow: hidden;
 	clip: rect(0 0 0 0);
 	height:1px;
@@ -54,14 +66,14 @@ input[type=radio].css-checkbox {
 }
 
 input[type=radio].css-checkbox + label.css-label {
-	padding-left:35px;
+	padding-left:35px; //el texto se corre el tamaño del png hacia la izq
+	line-height:30px;
 	height:30px; 
 	display:inline-block;
-	line-height:30px;
 	background-repeat:no-repeat;
-	background-position: 0 0;
-	font-size:30px;
-	vertical-align:middle;
+	//background-position: 0 0;
+	//font-size:30px;
+	vertical-align:middle; 
 	cursor:pointer;
 }
 
@@ -70,7 +82,7 @@ input[type=radio].css-checkbox:checked + label.css-label {
 }
 
 label.css-label {
-	background-image:url(http://csscheckbox.com/checkboxes/u/csscheckbox_f0aab248ad3e8c5d17860a06ee9eecbb.png);
+	background-image:url(images/csscheckbox.png);
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -78,13 +90,13 @@ label.css-label {
 	-ms-user-select: none;
 	user-select: none;
 }
-@media screen and (min-width:600px) {
-  div {
-    float: left;
-  }
-}
-@media screen and (max-width:599px) {
-  div {
-    display: inline-block;
-  }
-}
+//@media screen and (min-width:600px) {
+  //div {
+    //float: left;
+  //}
+//}
+//@media screen and (max-width:599px) {
+  //div {
+    //display: inline-block;
+  //}
+//}
