@@ -7,23 +7,17 @@
 <div style="clear: both;"></div>
 <p class="izq"> Pusieron: <%= settings.aportes %></p>
 <div class="izq"> Saldos:  
-  <ul class="izq">
-    <% @saldos.each do |m| %>
-    <li><%= m.to_s%></li>
-    <% end %>  
-  </ul>
+  <%= @saldos.to_html %>
 </div>
+
 <div style="clear: both;"></div>
 
+<p class="izq"> ACREEDORES:  </p>
+      <%= settings.acreedores.to_html %>
+  <div style="clear: both;"></div>
+
 <ul>
-  <li class="izq">
-    <p> ACREEDORES:  
-      <% settings.acreedores.each do |key, value| %>
-      <%= "#{key}: #{value}" + ', '%>
-      <% end %>  
-    </p>
-  </li>
-  <li class="izq">
+  <li class="der">
     <p> DEUDORES:  
       <% settings.deudores.each do |key, value| %>
       <%= "#{key}: #{value}" + ', '%>

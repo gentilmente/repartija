@@ -2,6 +2,12 @@ require 'bundler'
 Bundler.setup
 require 'sinatra'
 
+class Hash
+  def to_html
+    ['<ul class="izq">',map { |k, v| ["<li><strong>#{k}:</strong>", v.respond_to?(:to_html) ?
+     v.to_html : "<span> #{v}</span></li>"] },'</ul>'].join
+  end
+end
 
 configure do
   enable :sessions
@@ -10,10 +16,10 @@ configure do
   set :saldos, {}
   set :acreedores, {}
   set :deudores, {}
+  set :resultados, {}
 end
 
 helpers do
-    
   def title
     @title || "Repartija"
   end
@@ -59,6 +65,7 @@ helpers do
       @acumulado = 0
       puts'-------------------------------------------------------------------------'
       puts "Para acreedor: " + nombre_acr.to_s + monto_acr.to_s
+      #settings.resultados <= nombre_acr.to_sym
       settings.deudores.each  do |k, v| 
         #puts "monto acreedor: " + monto_acr.to_s
         #puts

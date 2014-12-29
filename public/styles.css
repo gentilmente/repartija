@@ -5,7 +5,6 @@
 }
 
 body {
-  text-align: center;
   background-repeat: no-repeat;  
   background-attachment: fixed;
   background-position: center;
@@ -15,24 +14,27 @@ body {
   font-family: helvetica;
   font-size: 22px; 
 }
-
 a {
 	color: white;
 	text-decoration: none;
 }
 
 div {
-	margin-top: 15px;
+	margin-top: 10px;
 	//display: inline-block;
 	//vertical-align: middle;
 }
 
-p {
+p.izq {
 	margin-left: 100px;
 }
 
+.forma {
+	text-align: center;
+}
 .izq {
 	float: left;
+	//background-color: black;
 }
 .der {
 	float: right;
