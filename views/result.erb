@@ -5,29 +5,16 @@
   </h3>
 </div>
 <div style="clear: both;"></div>
-<p class="izq"> Pusieron: <%= settings.aportes %></p>
-<!--<div class="izq"> Saldos:  
-  <%= @saldos.to_html %>
-</div>-->
 
+<div class="izq">
+  <p> Resultado:  </p>
+  <%= @resultados.to_html %>
+</div>
 <div style="clear: both;"></div>
 
+<p class="izq"> Pusieron: <%= settings.aportes %></p>
+<div style="clear: both;"></div>
+<!--
 <p class="izq"> ACREEDORES:  </p>
       <%= settings.acreedores.to_html %>
-  <div style="clear: both;"></div>
-
-<p class="izq"> Resultado:  </p>
-      <%= settings.resultados.to_html %>
-  <div style="clear: both;"></div>
-
-<ul>
-  <li class="der">
-    <p> DEUDORES:  
-      <% settings.deudores.each do |key, value| %>
-      <%= "#{key}: #{value}" + ', '%>
-      <% end %>  
-    </p>
-  </li>
-</ul>
 <div style="clear: both;"></div>
-<p> Nombre:</p> <p><%= @nombre %></p>
