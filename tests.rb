@@ -1,5 +1,5 @@
 require 'test/unit'
-require './repartija-cmd'
+require './main.rb'
 
 class TestRepartija < Test::Unit::TestCase
 
@@ -16,10 +16,8 @@ class TestRepartija < Test::Unit::TestCase
   end
 
   def repartija_test
-    assert_equal {
-    	Martin: {Bufarra: 101, Pedro: 141, Cachi: 141, Eze: 76},
-    	Joni: {Eze: 85}
-    	Gisela: {Eze: 56}
-    	}, calcular(@pagos)
+    resultados = {Martin: {Bufarra: 101, Pedro: 141, Cachi: 141, Eze: 76},
+      Joni: {Eze: 85}, Gisela: {Eze: 56}}
+    assert_equal resultados, calcular(@pagos)
   end   	
 end
