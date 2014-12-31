@@ -104,7 +104,6 @@ helpers do
             else
               @resultados[nombre_acr].store(k, @pago_individual)
             end
-
           end
         end
         #puts acreedores.to_s
