@@ -4,7 +4,7 @@ require 'sinatra'
 
 class Hash
   def to_html
-    ['<ul>',map { |k, v| ["<li><strong>#{k}:</strong>", v.respond_to?(:to_html) ?
+    ['<ul>',map { |k, v| ["<li>#{k}: ", v.respond_to?(:to_html) ?
      v.to_html : "<span> #{v}</span></li>"] },'</ul>'].join
   end
 end
@@ -106,12 +106,12 @@ helpers do
             end
           end
         end
-        #puts acreedores.to_s
-        #puts deudores.to_s
+        puts acreedores.to_s
+        puts deudores.to_s
       end 
     end
     puts'-------------------------------------------------------------------------' 
-    out = @resultados
+    return @resultados
   end
 
   def HashToHTML(hash, opts = {})
@@ -151,7 +151,7 @@ post '/' do
     acreedores, deudores = separar_lista(@saldos)
     @resultados = calcular(acreedores, deudores)
     puts @resultados
-    #puts @resultados.to_html
+    puts @resultados.to_html
     puts HashToHTML(@resultados)
     erb :result
   else
