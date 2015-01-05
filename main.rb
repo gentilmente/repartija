@@ -26,9 +26,21 @@ helpers do
 
   def hard_code_aportes()
     settings.aportes = { 
-      Bufarra: 40, 
+      Bufarra: 0, 
       Martin: 600,  
-      Joni: 150,  
+      Joni: 152,  
+      Pedro: 0,  
+      Cachi: 0, 
+      Gisela: 200,
+      Eze: 0  
+    }
+  end
+
+  def hard_code_aportes2()
+    settings.aportes = { 
+      Bufarra: 0, 
+      Martin: 200,  
+      Joni: 152,  
       Pedro: 0,  
       Cachi: 0, 
       Gisela: 200,
@@ -39,6 +51,11 @@ helpers do
   def preparar_listas(aportes)
     @total = aportes.values.reduce(:+)
     @pago_individual = @total/aportes.length
+    puts
+    puts "Total: " 
+    puts @total 
+    puts "Pago individual: " 
+    puts @pago_individual
     return aportes.inject({}){ |hash, (k, v)| hash.merge( k.to_sym => @pago_individual - v )  }
   end
 
@@ -56,45 +73,59 @@ helpers do
       @acumulado = 0
       puts'-------------------------------------------------------------------------'
       puts "Para acreedor: " + nombre_acr.to_s + monto_acr.to_s
-      deudores.each  do |k, v| 
-        if(v > 0 && @monto_acr_actual < 0)
-          puts "el deudor: " + k.to_s
-          @acumulado += v
+      deudores.each  do |deudor, deuda| 
+        puts "    " + deudor.to_s + " debe: " + deuda.to_s
+        puts "    monto_acr_actual: " + @monto_acr_actual.to_s
+        puts "    monto_acr: " + monto_acr.to_s
+        if(deuda > 0 && @monto_acr_actual < 0)
+          @acumulado += deuda
           @resta_pagar = @acumulado + monto_acr
-          #puts "acumulado: " + @acumulado.to_s
-          #puts "resta_pagar: " + @resta_pagar.to_s
-          
+          puts "acumulado: " + @acumulado.to_s
+          puts "resta_pagar: " + @resta_pagar.to_s
+          puts "el deudor: " + deudor.to_s
+          #caso loco
+#if( @resta_pagar > 0 && @resta_pagar < @pago_individual && @acumulado > @pago_individual)
+#puts "PPPaga: " + (@acumulado + @monto_acr_actual).to_s
+#deudores[deudor] = @resta_pagar
+#acreedores[nombre_acr] += @acumulado + @monto_acr_actual
+#@monto_acr_actual = acreedores[nombre_acr]
+#if(!@resultados.key?(nombre_acr))
+#@resultados[nombre_acr.to_sym] = {deudor.to_sym => @acumulado + @monto_acr_actual}
+#else
+#@resultados[nombre_acr].store(deudor, @acumulado + @monto_acr_actual)
+#end
+
           if( @resta_pagar > 0 && @resta_pagar < @pago_individual)
             puts "Paga: " + (@pago_individual - @resta_pagar).to_s
-            deudores[k] = @resta_pagar
+            deudores[deudor] = @resta_pagar
             acreedores[nombre_acr] += @pago_individual - @resta_pagar
             @monto_acr_actual = acreedores[nombre_acr]
-            if(!@resultados.has_key?(nombre_acr))
-              @resultados[nombre_acr.to_sym] = {k.to_sym => @pago_individual - @resta_pagar}
+            if(!@resultados.key?(nombre_acr))
+              @resultados[nombre_acr.to_sym] = {deudor.to_sym => @pago_individual - @resta_pagar}
             else
-              @resultados[nombre_acr].store(k, @pago_individual - @resta_pagar)
+              @resultados[nombre_acr].store(deudor, @pago_individual - @resta_pagar)
             end
 
-          elsif (v < @pago_individual)
-            puts "ppaga: " + v.to_s
-            deudores[k] = 0
-            acreedores[nombre_acr] += v
+          elsif (deuda < @pago_individual)
+            puts "ppaga: " + deuda.to_s
+            deudores[deudor] = 0
+            acreedores[nombre_acr] += deuda
             @monto_acr_actual = acreedores[nombre_acr]
-            if(!@resultados.has_key?(nombre_acr))
-              @resultados[nombre_acr.to_sym] = {k.to_sym => v}
+            if(!@resultados.key?(nombre_acr))
+              @resultados[nombre_acr.to_sym] = {deudor.to_sym => deuda}
             else
-              @resultados[nombre_acr].store(k, v)
+              @resultados[nombre_acr].store(deudor, deuda)
             end
 
           elsif (@resta_pagar <= 0)
             puts "paga: " + @pago_individual.to_s
-            deudores[k] = 0
+            deudores[deudor] = 0
             acreedores[nombre_acr] += @pago_individual
             @monto_acr_actual = acreedores[nombre_acr]
             if(!@resultados.has_key?(nombre_acr))
-              @resultados[nombre_acr.to_sym] = {k.to_sym => @pago_individual}
+              @resultados[nombre_acr.to_sym] = {deudor.to_sym => @pago_individual}
             else
-              @resultados[nombre_acr].store(k, @pago_individual)
+              @resultados[nombre_acr].store(deudor, @pago_individual)
             end
           end
         end
@@ -133,7 +164,7 @@ post '/' do
   #====================== Para testing =================================
 
   #set_aportes(@nombre, params[:cantidad].to_i)
-  hard_code_aportes()
+  hard_code_aportes2()
 
   #=====================================================================
 
@@ -147,9 +178,9 @@ post '/' do
     @saldos = preparar_listas(settings.aportes)
     acreedores, deudores = separar_lista(@saldos)
     @resultados = calcular(acreedores, deudores)
-    puts @resultados
-    puts @resultados.to_html
-    puts HashToHTML(@resultados)
+#    puts @resultados
+#    puts @resultados.to_html
+#    puts HashToHTML(@resultados)
     erb :result
   else
     erb :form
