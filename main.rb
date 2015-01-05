@@ -90,18 +90,12 @@ helpers do
             end
           end
         end
-<<<<<<< HEAD
-      end 
-    end
-    out = @resultados
-=======
         puts acreedores.to_s
         puts deudores.to_s
       end 
     end
     puts'-------------------------------------------------------------------------' 
     return @resultados
->>>>>>> última_con_puts
   end
 
   def HashToHTML(hash, opts = {})
@@ -145,12 +139,9 @@ post '/' do
     @saldos = preparar_listas(settings.aportes)
     acreedores, deudores = separar_lista(@saldos)
     @resultados = calcular(acreedores, deudores)
-<<<<<<< HEAD
-=======
     puts @resultados
     puts @resultados.to_html
     puts HashToHTML(@resultados)
->>>>>>> última_con_puts
     erb :result
   else
     erb :form
