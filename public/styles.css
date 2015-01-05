@@ -4,11 +4,11 @@
   box-sizing: border-box;
 }
 
-body {
+html {
+  background: url("images/party.jpg");
   background-repeat: no-repeat;  
   background-attachment: fixed;
   background-position: center;
-  background: url("images/party.jpg");
   background-size: cover;
   color: white;
   font-family: helvetica;
@@ -32,6 +32,8 @@ p.izq {
 }
 .forma {
 	text-align: center;
+//	width: 310px;
+//	border: 5px solid gray;
 }
 .izq {
 	float: left;
@@ -42,8 +44,9 @@ p.izq {
 }
 
 div.header {
-	float: left; 
-	width: 100%;
+//	float: left; 
+//	width: 100%;
+	overflow: hidden;
 }
 
 input {
@@ -103,10 +106,17 @@ label.css-label {
 //}
 @media screen and (max-width:599px) {
   div {
-  	margin-left: 0px;
-    float: left;
+  	margin: auto;
+  	margin-left: 10px;
+  	margin-top: 10px;
+
+    display: inline-block;
   }
   p {
   	font-size: 20px;
   }
+  input {
+  	font-size: 18px;
+  }
+
 }
