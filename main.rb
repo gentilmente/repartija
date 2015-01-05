@@ -83,27 +83,16 @@ helpers do
           puts "acumulado: " + @acumulado.to_s
           puts "resta_pagar: " + @resta_pagar.to_s
           puts "el deudor: " + deudor.to_s
-          #caso loco
-#if( @resta_pagar > 0 && @resta_pagar < @pago_individual && @acumulado > @pago_individual)
-#puts "PPPaga: " + (@acumulado + @monto_acr_actual).to_s
-#deudores[deudor] = @resta_pagar
-#acreedores[nombre_acr] += @acumulado + @monto_acr_actual
-#@monto_acr_actual = acreedores[nombre_acr]
-#if(!@resultados.key?(nombre_acr))
-#@resultados[nombre_acr.to_sym] = {deudor.to_sym => @acumulado + @monto_acr_actual}
-#else
-#@resultados[nombre_acr].store(deudor, @acumulado + @monto_acr_actual)
-#end
 
           if( @resta_pagar > 0 && @resta_pagar < @pago_individual)
-            puts "Paga: " + (@pago_individual - @resta_pagar).to_s
+            puts "Paga: " + (deuda - @resta_pagar).to_s
             deudores[deudor] = @resta_pagar
-            acreedores[nombre_acr] += @pago_individual - @resta_pagar
+            acreedores[nombre_acr] += deuda - @resta_pagar
             @monto_acr_actual = acreedores[nombre_acr]
             if(!@resultados.key?(nombre_acr))
-              @resultados[nombre_acr.to_sym] = {deudor.to_sym => @pago_individual - @resta_pagar}
+              @resultados[nombre_acr.to_sym] = {deudor.to_sym => deuda - @resta_pagar}
             else
-              @resultados[nombre_acr].store(deudor, @pago_individual - @resta_pagar)
+              @resultados[nombre_acr].store(deudor, deuda - @resta_pagar)
             end
 
           elsif (deuda < @pago_individual)
@@ -164,7 +153,7 @@ post '/' do
   #====================== Para testing =================================
 
   #set_aportes(@nombre, params[:cantidad].to_i)
-  hard_code_aportes2()
+  hard_code_aportes()
 
   #=====================================================================
 
