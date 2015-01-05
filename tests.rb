@@ -15,7 +15,13 @@ class TestRepartija < Test::Unit::TestCase
     }
   end
 
-  def repartija_test
+  def r
+    resultados = {Martin: {Bufarra: 101, Pedro: 141, Cachi: 141, Eze: 76},
+      Joni: {Eze: 85}, Gisela: {Eze: 56}}
+    assert_equal resultados, calcular(@pagos)
+  end 
+
+  def _test
     resultados = {Martin: {Bufarra: 101, Pedro: 141, Cachi: 141, Eze: 76},
       Joni: {Eze: 85}, Gisela: {Eze: 56}}
     assert_equal resultados, calcular(@pagos)
