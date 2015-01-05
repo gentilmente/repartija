@@ -54,12 +54,18 @@ helpers do
     acreedores.each do |nombre_acr, monto_acr|
       @monto_acr_actual = monto_acr
       @acumulado = 0
+      puts'-------------------------------------------------------------------------'
+      puts "Para acreedor: " + nombre_acr.to_s + monto_acr.to_s
       deudores.each  do |k, v| 
         if(v > 0 && @monto_acr_actual < 0)
+          puts "el deudor: " + k.to_s
           @acumulado += v
           @resta_pagar = @acumulado + monto_acr
+          #puts "acumulado: " + @acumulado.to_s
+          #puts "resta_pagar: " + @resta_pagar.to_s
           
           if( @resta_pagar > 0 && @resta_pagar < @pago_individual)
+            puts "Paga: " + (@pago_individual - @resta_pagar).to_s
             deudores[k] = @resta_pagar
             acreedores[nombre_acr] += @pago_individual - @resta_pagar
             @monto_acr_actual = acreedores[nombre_acr]
@@ -70,6 +76,7 @@ helpers do
             end
 
           elsif (v < @pago_individual)
+            puts "ppaga: " + v.to_s
             deudores[k] = 0
             acreedores[nombre_acr] += v
             @monto_acr_actual = acreedores[nombre_acr]
@@ -80,6 +87,7 @@ helpers do
             end
 
           elsif (@resta_pagar <= 0)
+            puts "paga: " + @pago_individual.to_s
             deudores[k] = 0
             acreedores[nombre_acr] += @pago_individual
             @monto_acr_actual = acreedores[nombre_acr]
