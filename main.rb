@@ -5,7 +5,7 @@ require 'sinatra'
 class Hash
   def to_html
     ['<ul>',map { |k, v| ["<li>#{k}: ", v.respond_to?(:to_html) ?
-     v.to_html : "<span> #{v}</span></li>"] },'</ul>'].join
+     v.to_html : "<span>$ #{v}</span></li>"] },'</ul>'].join
   end
 end
 
@@ -127,6 +127,7 @@ helpers do
 end
 
 get '/' do
+  settings.aportes.clear
   erb :form
 end
 
@@ -136,8 +137,8 @@ post '/' do
 
   #====================== Para testing =================================
 
-  #set_aportes(@nombre, params[:cantidad].to_i)
-  hard_code_aportes()
+  set_aportes(@nombre, params[:cantidad].to_i)
+  #hard_code_aportes()
 
   #=====================================================================
 
