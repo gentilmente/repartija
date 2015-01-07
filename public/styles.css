@@ -1,19 +1,47 @@
 * { 
-  -moz-box-sizing: border-box;
-  -webkit-box-sizing: border-box;
-  box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 html {
-  background: url("images/party.jpg");
-  background-repeat: no-repeat;  
-  background-attachment: fixed;
-  background-position: center;
-  background-size: cover;
-  color: white;
-  font-family: helvetica;
-  font-size: 22px; 
+	background: url("images/party.jpg");
+	background-repeat: no-repeat;  
+	background-attachment: fixed;
+	background-position: center;
+	background-size: cover;
+	color: white;
+	font-family: Helvetica;
+	font-size: 22px; 
+	text-align: center;
 }
+
+h1 {
+	margin: auto;
+	margin-top: 70px;
+	font-size: 50px;
+}
+
+.numbers {
+	width: 30%;
+	border: 1px solid;
+	margin: auto;
+}
+
+.panel {
+	width: 500px;
+	height: 400px;
+	border: 1px solid;
+	margin: auto;
+}
+
+p.subtitle, h1 {
+	font-family: 'Satisfy', cursive;
+	margin-bottom: 10px;
+	padding: 0px;  
+	text-shadow:5px 5px 10px black;
+}
+
 a {
 	color: white;
 	text-decoration: none;
@@ -27,39 +55,33 @@ p {
 	font-size: 30px;
 }
 
-p.izq {
-	margin-left: 50px;
-}
-.forma {
-	text-align: center;
-//	width: 310px;
-//	border: 5px solid gray;
-}
 .izq {
 	float: left;
 }
+
 .der {
 	float: right;
 	margin-right: 100px;
 }
 
 div.header {
-//	float: left; 
-//	width: 100%;
 	overflow: hidden;
 }
 
 input {
-  position: relative;
-  margin: 1em;
-  border: 0;
-  padding: 10px;
-  font-size: 28px;
+	position: relative;
+	margin: 1em;
+	border: 0;
+	padding: 10px;
+	font-size: 28px;
+	color: white;
+	background-color: black;
+	opacity: 0.8;
 }
 
 input[type="submit"] {
-  background: red;
-  color: white;
+	background: red;
+	color: white;
 }
 
 input[type=radio].css-checkbox {
@@ -98,6 +120,7 @@ label.css-label {
 	-moz-user-select: none;
 	-ms-user-select: none;
 	user-select: none;
+	text-shadow:5px 5px 10px black;
 }
 //@media screen and (min-width:600px) {
 //  li {
@@ -105,18 +128,18 @@ label.css-label {
 //  }
 //}
 @media screen and (max-width:599px) {
-  div {
-  	margin: auto;
-  	margin-left: 10px;
-  	margin-top: 10px;
+	div {
+		margin: auto;
+		margin-left: 10px;
+		margin-top: 10px;
 
-    display: inline-block;
-  }
-  p {
-  	font-size: 20px;
-  }
-  input {
-  	font-size: 18px;
-  }
+		display: inline-block;
+	}
+	p {
+		font-size: 20px;
+	}
+	input {
+		font-size: 18px;
+	}
 
 }

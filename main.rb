@@ -128,17 +128,22 @@ end
 
 get '/' do
   settings.aportes.clear
+  erb :start
+end
+
+get '/form' do
+  settings.aportes.clear
   erb :form
 end
 
-post '/' do
+post '/form' do
   @title = "Resultado"
   @nombre = params[:nombre].chomp
 
   #====================== Para testing =================================
 
-  set_aportes(@nombre, params[:cantidad].to_i)
-  #hard_code_aportes()
+  #set_aportes(@nombre, params[:cantidad].to_i)
+  hard_code_aportes()
 
   #=====================================================================
 
@@ -154,7 +159,7 @@ post '/' do
     @resultados = calcular(acreedores, deudores)
 #    puts @resultados
 #    puts @resultados.to_html
-#    puts HashToHTML(@resultados)
+    puts HashToHTML(@resultados)
     erb :result
   else
     erb :form
