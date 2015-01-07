@@ -16,6 +16,10 @@ html {
 	text-align: center;
 }
 
+.start{
+	background-color: black;
+}
+
 h1 {
 	margin: auto;
 	margin-top: 70px;

@@ -142,8 +142,8 @@ post '/form' do
 
   #====================== Para testing =================================
 
-  #set_aportes(@nombre, params[:cantidad].to_i)
-  hard_code_aportes()
+  set_aportes(@nombre, params[:cantidad].to_i)
+  #hard_code_aportes()
 
   #=====================================================================
 
