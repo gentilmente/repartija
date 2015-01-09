@@ -17,6 +17,7 @@ html {
 }
 
 .start{
+	width: auto;
 	background-color: black;
 }
 
@@ -29,18 +30,19 @@ h1 {
 .numbers {
 	width: 30%;
 	border: 1px solid;
-	margin: auto;
+	//margin: auto;
 }
 
 .panel {
-	width: 500px;
-	height: 400px;
+	width: 400px;
+	height: 370px;
 	border: 1px solid;
+	padding: 10px;
 	margin: auto;
 }
 
 p.subtitle, h1 {
-	font-family: 'Satisfy', cursive;
+	font-family: 'Satisfy', Helvetica, cursive;
 	margin-bottom: 10px;
 	padding: 0px;  
 	text-shadow:5px 5px 10px black;

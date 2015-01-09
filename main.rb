@@ -13,6 +13,7 @@ configure do
   enable :sessions
   set :session_secret, "My session secret"
   set :aportes, {}
+  set :ocupado, false
 end
 
 helpers do
@@ -20,8 +21,8 @@ helpers do
     @title || "Repartija"
   end
   
-  def set_aportes(uno, dos)
-    settings.aportes[uno.to_sym] ||= dos
+  def set_aportes(nombre, pago)
+    settings.aportes[nombre.to_sym] ||= pago
   end
 
   def hard_code_aportes()
@@ -54,21 +55,21 @@ helpers do
     return acreedores, deudores
   end
 
-  def generar_salida(nombre_acr, deudor, pago)
-    if(!@resultados.key?(nombre_acr))
-      @resultados[nombre_acr.to_sym] = {deudor.to_sym => pago}
+  def generar_salida(acreedor, deudor, pago)
+    if(!@resultados.key?(acreedor))
+      @resultados[acreedor.to_sym] = {deudor.to_sym => pago}
     else
-      @resultados[nombre_acr].store(deudor, pago)
+      @resultados[acreedor].store(deudor, pago)
     end
   end
 
   def calcular(acreedores, deudores)
     @resultados = {}
-    acreedores.each do |nombre_acr, monto_acr|
+    acreedores.each do |acreedor, monto_acr|
       @monto_acr_actual = monto_acr
       @acumulado = 0
       puts'-------------------------------------------------------------------------'
-      puts "Para acreedor: " + nombre_acr.to_s + monto_acr.to_s
+      puts "Para acreedor: " + acreedor.to_s + monto_acr.to_s
       deudores.each  do |deudor, deuda| 
         #puts "    " + deudor.to_s + " debe: " + deuda.to_s
         #puts "    monto_acr_actual: " + @monto_acr_actual.to_s
@@ -83,23 +84,23 @@ helpers do
           if( @resta_pagar > 0 && @resta_pagar < @pago_individual)
             puts "Paga: " + (deuda - @resta_pagar).to_s
             deudores[deudor] = @resta_pagar
-            acreedores[nombre_acr] += deuda - @resta_pagar
-            @monto_acr_actual = acreedores[nombre_acr]
-            generar_salida(nombre_acr, deudor, deuda - @resta_pagar)
+            acreedores[acreedor] += deuda - @resta_pagar
+            @monto_acr_actual = acreedores[acreedor]
+            generar_salida(acreedor, deudor, deuda - @resta_pagar)
 
           elsif (deuda < @pago_individual)
             puts "ppaga: " + deuda.to_s
             deudores[deudor] = 0
-            acreedores[nombre_acr] += deuda
-            @monto_acr_actual = acreedores[nombre_acr]
-            generar_salida(nombre_acr, deudor, deuda)
+            acreedores[acreedor] += deuda
+            @monto_acr_actual = acreedores[acreedor]
+            generar_salida(acreedor, deudor, deuda)
 
           elsif (@resta_pagar <= 0)
             puts "paga: " + @pago_individual.to_s
             deudores[deudor] = 0
-            acreedores[nombre_acr] += @pago_individual
-            @monto_acr_actual = acreedores[nombre_acr]
-            generar_salida(nombre_acr, deudor, @pago_individual)
+            acreedores[acreedor] += @pago_individual
+            @monto_acr_actual = acreedores[acreedor]
+            generar_salida(acreedor, deudor, @pago_individual)
           end
         end
         #puts acreedores.to_s
@@ -127,12 +128,17 @@ helpers do
 end
 
 get '/' do
-  settings.aportes.clear
-  erb :start
+  if !settings.ocupado
+    settings.aportes.clear
+    erb :start
+  else
+    erb :start
+  end
 end
 
 get '/form' do
   settings.aportes.clear
+  settings.ocupado = true
   erb :form
 end
 
@@ -160,8 +166,10 @@ post '/form' do
 #    puts @resultados
 #    puts @resultados.to_html
     puts HashToHTML(@resultados)
+    settings.ocupado = false
     erb :result
   else
+    settings.ocupado = true
     erb :form
   end
 end
