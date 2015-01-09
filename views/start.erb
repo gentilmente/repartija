@@ -1,16 +1,26 @@
 <div class="start">
-	
+	<% if settings.ocupado %>
+		<p class= "subtitle"><a href='/'>Ups! ocupado, volvé a intentar</a></p>
+	<% end %>
+<!--
 	<div class="numbers izq">
 		1
 	</div>
-	<div class="numbers izq">
+	<div class="numbers">
 		2
 	</div>
-	<div class="numbers izq">
+	<div class="numbers">
 		3
 	</div>
-	<div class="panel">
-		<img src="images/paso_2.gif">
+	-->
+	<div <%= 'style = "display: none;"' if settings.ocupado %> >
+		<h1><a href='/form'>comenzar</a></h1>
 	</div>
-	<h1><a href='/form'>comenzar</a></h1>
+
+
+<!--
+	<div class="panel">
+		<img src="images/paso_1.gif">
+	</div>
+-->
 </div>
