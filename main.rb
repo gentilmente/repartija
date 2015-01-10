@@ -12,8 +12,6 @@ end
 configure do
   enable :sessions
   set :session_secret, "My session secret"
-  set :aportes, {}
-  set :ocupado, false
 end
 
 helpers do
@@ -22,11 +20,11 @@ helpers do
   end
   
   def set_aportes(nombre, pago)
-    settings.aportes[nombre.to_sym] ||= pago
+    session[:aportes][nombre.to_sym] ||= pago
   end
 
   def hard_code_aportes()
-    settings.aportes = { 
+    session[:aportes] = { 
       Bufarra: 0, 
       Martin: 600,  
       Joni: 152,  
@@ -40,11 +38,6 @@ helpers do
   def preparar_listas(aportes)
     @total = aportes.values.reduce(:+)
     @pago_individual = @total/aportes.length
-    #puts
-    #puts "Total: " 
-    #puts @total 
-    #puts "Pago individual: " 
-    #puts @pago_individual
     return aportes.inject({}){ |hash, (k, v)| hash.merge( k.to_sym => @pago_individual - v )  }
   end
 
@@ -68,46 +61,33 @@ helpers do
     acreedores.each do |acreedor, monto_acr|
       @monto_acr_actual = monto_acr
       @acumulado = 0
-      puts'-------------------------------------------------------------------------'
-      puts "Para acreedor: " + acreedor.to_s + monto_acr.to_s
       deudores.each  do |deudor, deuda| 
-        #puts "    " + deudor.to_s + " debe: " + deuda.to_s
-        #puts "    monto_acr_actual: " + @monto_acr_actual.to_s
-        #puts "    monto_acr: " + monto_acr.to_s
+        
         if(deuda > 0 && @monto_acr_actual < 0)
           @acumulado += deuda
           @resta_pagar = @acumulado + monto_acr
-          #puts "acumulado: " + @acumulado.to_s
-          #puts "resta_pagar: " + @resta_pagar.to_s
-          puts "el deudor: " + deudor.to_s
 
           if( @resta_pagar > 0 && @resta_pagar < @pago_individual)
-            puts "Paga: " + (deuda - @resta_pagar).to_s
             deudores[deudor] = @resta_pagar
             acreedores[acreedor] += deuda - @resta_pagar
             @monto_acr_actual = acreedores[acreedor]
             generar_salida(acreedor, deudor, deuda - @resta_pagar)
 
           elsif (deuda < @pago_individual)
-            puts "ppaga: " + deuda.to_s
             deudores[deudor] = 0
             acreedores[acreedor] += deuda
             @monto_acr_actual = acreedores[acreedor]
             generar_salida(acreedor, deudor, deuda)
 
           elsif (@resta_pagar <= 0)
-            puts "paga: " + @pago_individual.to_s
             deudores[deudor] = 0
             acreedores[acreedor] += @pago_individual
             @monto_acr_actual = acreedores[acreedor]
             generar_salida(acreedor, deudor, @pago_individual)
           end
         end
-        #puts acreedores.to_s
-        #puts deudores.to_s
       end 
     end
-    puts'-------------------------------------------------------------------------' 
     return @resultados
   end
 
@@ -128,17 +108,11 @@ helpers do
 end
 
 get '/' do
-  if !settings.ocupado
-    settings.aportes.clear
-    erb :start
-  else
-    erb :start
-  end
+  erb :start
 end
 
 get '/form' do
-  settings.aportes.clear
-  settings.ocupado = true
+  session[:aportes] ||= Hash.new
   erb :form
 end
 
@@ -153,23 +127,15 @@ post '/form' do
 
   #=====================================================================
 
-#  if session[@nombre.to_sym].nil?
-#    session[@nombre.to_sym] = params[:cantidad].to_i
-#    puts session
-#  end
-
   @finished = params[:finished]
   if @finished 
-    @saldos = preparar_listas(settings.aportes)
+    @saldos = preparar_listas(session[:aportes])
     acreedores, deudores = separar_lista(@saldos)
     @resultados = calcular(acreedores, deudores)
-#    puts @resultados
-#    puts @resultados.to_html
-    puts HashToHTML(@resultados)
-    settings.ocupado = false
+    @aportes = session[:aportes]
+    session.clear
     erb :result
   else
-    settings.ocupado = true
     erb :form
   end
 end
