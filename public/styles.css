@@ -17,9 +17,18 @@ html {
 }
 
 .start{
-	width: auto;
+	position: relative;
+	width: 90%;
+	left: 5%;
 	background-color: black;
+	-moz-transition-duration: 0.5s;
+	-webkit-transition-duration: 0.5s;
+	opacity: 0.6;
 }
+.start:hover{
+	opacity: 1;
+}
+
 
 h1 {
 	margin: auto;
@@ -136,18 +145,16 @@ label.css-label {
 //  }
 //}
 @media screen and (max-width:599px) {
-	div {
+	h1 {
 		margin: auto;
-		margin-left: 10px;
-		margin-top: 10px;
-
-		display: inline-block;
+		margin-top: 70px;
+		font-size: 80px;
 	}
 	p {
-		font-size: 20px;
+		font-size: 30px;
 	}
 	input {
-		font-size: 18px;
+		font-size: 28px;
 	}
 
 }
