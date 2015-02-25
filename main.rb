@@ -120,7 +120,7 @@ post '/form' do
   @title = "Resultado"
   @nombre = params[:nombre].chomp
 
-  #====================== Para testing =================================
+  #====================== Para testing  =================================
 
   set_aportes(@nombre, params[:cantidad].to_i)
   #hard_code_aportes()
