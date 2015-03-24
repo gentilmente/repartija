@@ -144,7 +144,10 @@ label.css-label {
 //    background-color: red;
 //  }
 //}
-@media screen and (max-width:850px) {
+@media
+(-webkit-min-device-pixel-ratio: 2),
+(min-resolution: 192dpi) {
+//@media screen and (max-width:850px) {
 	h1 {
 		margin: auto;
 		margin-top: 70px;
