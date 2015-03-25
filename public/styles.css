@@ -103,8 +103,6 @@ input[type="submit"] {
 
 input[type=radio].css-checkbox {
 	position:absolute;
-	//z-index:-1000;
-	//left:-1000px;
 	overflow: hidden;
 	clip: rect(0 0 0 0);
 	height:1px;
@@ -120,7 +118,6 @@ input[type=radio].css-checkbox + label.css-label {
 	height:30px;
 	display:inline-block;
 	background-repeat:no-repeat;
-	//background-position: 0 0;
 	vertical-align:middle;
 	cursor:pointer;
 }
@@ -139,23 +136,40 @@ label.css-label {
 	user-select: none;
 	text-shadow:5px 5px 10px black;
 }
-//@media screen and (min-width:600px) {
-//  li {
-//    background-color: red;
-//  }
-//}
 
-@media screen and (max-width:320px) {
+@media only screen and (max-device-width: 800px)
+ and (orientation : portrait) {
 	h1 {
 		margin: auto;
 		margin-top: 70px;
-		font-size: 80px;
+		font-size: 120px;
 	}
 	p {
-		font-size: 30px;
+		font-size: 60px;
 	}
 	input {
-		font-size: 28px;
+		font-size: 80px;
 	}
+}
 
+/*– Macbook Pro 13″, Samsung Nexus 10 –*/
+@media only screen and (-webkit-min-device-pixel-ratio: 2)
+ and (max-device-width:2560px) {
+
+}
+
+@media only screen and (-webkit-min-device-pixel-ratio: 2)
+ and (max-device-width:640px)
+ and (orientation : portrait) {
+	h1 {
+		margin: auto;
+		margin-top: 70px;
+		font-size: 120px;
+	}
+	p {
+		font-size: 60px;
+	}
+	input {
+		font-size: 80px;
+	}
 }

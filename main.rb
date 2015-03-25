@@ -12,26 +12,27 @@ end
 configure do
   enable :sessions
   set :session_secret, "My session secret"
+  set :bind, '0.0.0.0' #para acceder en WLAN a la IP del server http://192.168.0.10:4567
 end
 
 helpers do
   def title
     @title || "Repartija"
   end
-  
+
   def set_aportes(nombre, pago)
     session[:aportes][nombre.to_sym] ||= pago
   end
 
   def hard_code_aportes()
-    session[:aportes] = { 
-      Bufarra: 0, 
-      Martin: 600,  
-      Joni: 152,  
-      Pedro: 0,  
-      Cachi: 0, 
+    session[:aportes] = {
+      Bufarra: 0,
+      Martin: 600,
+      Joni: 152,
+      Pedro: 0,
+      Cachi: 0,
       Gisela: 200,
-      Eze: 0  
+      Eze: 0
     }
   end
 
@@ -43,7 +44,7 @@ helpers do
 
   def separar_lista(saldos)
     acreedores, deudores = saldos.partition { |_,e| e < 0 }
-    acreedores = acreedores.to_h 
+    acreedores = acreedores.to_h
     deudores = deudores.to_h
     return acreedores, deudores
   end
@@ -61,8 +62,8 @@ helpers do
     acreedores.each do |acreedor, monto_acr|
       @monto_acr_actual = monto_acr
       @acumulado = 0
-      deudores.each  do |deudor, deuda| 
-        
+      deudores.each  do |deudor, deuda|
+
         if(deuda > 0 && @monto_acr_actual < 0)
           @acumulado += deuda
           @resta_pagar = @acumulado + monto_acr
@@ -86,7 +87,7 @@ helpers do
             generar_salida(acreedor, deudor, @pago_individual)
           end
         end
-      end 
+      end
     end
     return @resultados
   end
@@ -128,7 +129,7 @@ post '/form' do
   #=====================================================================
 
   @finished = params[:finished]
-  if @finished 
+  if @finished
     @saldos = preparar_listas(session[:aportes])
     acreedores, deudores = separar_lista(@saldos)
     @resultados = calcular(acreedores, deudores)
