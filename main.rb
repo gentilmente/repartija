@@ -26,7 +26,7 @@ helpers do
 
   def hard_code_aportes()
     session[:aportes] = {
-      Bufarra: 0,
+      Bufarra: 40,
       Martin: 600,
       Joni: 152,
       Pedro: 0,
@@ -57,7 +57,9 @@ helpers do
     end
   end
 
-  def calcular(acreedores, deudores)
+  def calcular(pagos)
+    saldos = preparar_listas(pagos)
+    acreedores, deudores = separar_lista(saldos)
     @resultados = {}
     acreedores.each do |acreedor, monto_acr|
       @monto_acr_actual = monto_acr
@@ -130,9 +132,7 @@ post '/form' do
 
   @finished = params[:finished]
   if @finished
-    @saldos = preparar_listas(session[:aportes])
-    acreedores, deudores = separar_lista(@saldos)
-    @resultados = calcular(acreedores, deudores)
+    @resultados = calcular(session[:aportes])
     @aportes = session[:aportes]
     session.clear
     erb :result
