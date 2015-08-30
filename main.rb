@@ -57,8 +57,8 @@ helpers do
     end
   end
 
-  def calcular(pagos)
-    saldos = preparar_listas(pagos)
+  def calcular(aportes)
+    saldos = preparar_listas(aportes)
     acreedores, deudores = separar_lista(saldos)
     @resultados = {}
     acreedores.each do |acreedor, monto_acr|

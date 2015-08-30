@@ -4,7 +4,7 @@
 
 
 require 'test/unit'
-require './main.rb'
+require './main'
 
 class TestRepartija < Test::Unit::TestCase
 
