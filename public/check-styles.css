@@ -3,7 +3,6 @@
     width: 170px;
     -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
     margin: auto;
-
 }
 .onoffswitch-checkbox {
     display:none;

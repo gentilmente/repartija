@@ -12,9 +12,9 @@ html {
 	background-position: center;
 	background-size: cover;
 	color: white;
-	font-family: Helvetica;
-	font-size: 22px;
 	text-align: center;
+	font-family: Helvetica, cursive;
+	font-size: 22px;
 }
 
 .start{
@@ -26,10 +26,13 @@ html {
 	-webkit-transition-duration: 0.5s;
 	opacity: 0.6;
 }
-.start:hover{
+.start:hover {
 	opacity: 1;
 }
-
+h1, p, .start, li {
+	font-family: 'Satisfy', Helvetica, cursive;	font-size: 22px;
+	text-shadow:5px 5px 10px black;		
+}
 
 h1 {
 	margin: auto;
@@ -51,11 +54,13 @@ h1 {
 	margin: auto;
 }
 
+p {
+	font-size: 30px;
+}
+
 p.subtitle, h1 {
-	font-family: 'Satisfy', Helvetica, cursive;
 	margin-bottom: 10px;
 	padding: 0px;
-	
 }
 
 a {
@@ -66,13 +71,6 @@ a {
 ul {
 	list-style-type: none;
 	text-align: initial;
-
-}
-
-p {
-	font-family: 'Satisfy', Helvetica, cursive;
-	font-size: 30px;
-	text-shadow:5px 5px 10px black;
 }
 
 .izq {
@@ -111,7 +109,7 @@ input[type="submit"] {
 		margin-top: 20px;
 		font-size: 120px;
 	}
-	p {
+	p + li {
 		font-size: 60px;
 	}
 	input {
