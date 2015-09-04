@@ -25,19 +25,20 @@ html {
 	-moz-transition-duration: 0.5s;
 	-webkit-transition-duration: 0.5s;
 	opacity: 0.6;
+	margin-bottom: 20px;
 }
 .start:hover {
 	opacity: 1;
 }
 h1, p, .start, li {
-	font-family: 'Satisfy', Helvetica, cursive;	font-size: 22px;
-	text-shadow:5px 5px 10px black;		
+	font-family: 'Satisfy', Helvetica, cursive;
+	text-shadow:1px 1px 7px black;		
 }
 
 h1 {
 	margin: auto;
-	margin-top: 70px;
-	font-size: 50px;
+	margin-top: 50px;
+	font-size: 60px;
 }
 
 .numbers {
@@ -55,10 +56,10 @@ h1 {
 }
 
 p {
-	font-size: 30px;
+	font-size: 25px;
 }
 
-p.subtitle, h1 {
+p.subtitle {
 	margin-bottom: 10px;
 	padding: 0px;
 }
@@ -72,26 +73,28 @@ ul {
 	list-style-type: none;
 	text-align: initial;
 }
-
+li{
+	font-size: 35px;
+}
 .izq {
 	float: left;
+	margin-left: 8%;	
 }
 
 .der {
 	float: right;
-	margin-right: 100px;
+	margin-right: 8%;
 }
 
 div.header {
 	overflow: hidden;
 }
-
 input {
 	position: relative;
-	margin: 1em;
+	margin: 10px;
 	border: 0;
 	padding: 10px;
-	font-size: 28px;
+	font-size: 22px;
 	color: white;
 	background-color: black;
 	opacity: 0.8;
@@ -102,43 +105,11 @@ input[type="submit"] {
 	color: white;
 }
 
-@media only screen and (max-device-width: 800px)
- and (orientation : portrait) {
-	h1 {
-		margin: auto;
-		margin-top: 20px;
-		font-size: 120px;
-	}
-	p + li {
-		font-size: 60px;
-	}
-	input {
-		top: 70px;
-		font-size: 80px;
-		padding: 30px;
-	}
+footer {
+	display: inline-block;
+	margin-top: 40px;
+    position: absolute;
+    right: 10px;
 }
 
-/*– Macbook Pro 13″, Samsung Nexus 10 –*/
-@media only screen and (-webkit-min-device-pixel-ratio: 2)
- and (max-device-width:2560px) {
-
-}
-
-@media only screen and (-webkit-min-device-pixel-ratio: 2)
- and (max-device-width:640px)
- and (orientation : portrait) {
-	h1 {
-		margin: auto;
-		margin-top: 20px;
-		font-size: 120px;
-	}
-	p {
-		font-size: 60px;
-	}
-	input {
-		top: 70px;
-		font-size: 80px;
-		padding: 30px;
-	}
-}
+details summary::-webkit-details-marker { display:none; }

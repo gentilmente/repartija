@@ -1,23 +1,29 @@
-<div>  
-  <div class="header">
-	  <div class="izq">
-	    <p>Total:  $<%= @total %></p>
-	  </div>
-	  <div class="der">
-	    <p>Pago individual: $<%=@pago_individual%><p>
-	  </div>
+<div class="header">
+  <div class="izq">
+    <p>Total:  $<%= @total %></p>
+  </div>
+  <div class="der">
+    <p>Pago individual: $<%=@pago_individual%><p>
   </div>
 </div>
 
 <div id = "container">
 	<div class="izq">
-	  <p> Resultado:  </p>
-	  <%= @resultados.to_html %>
+		<details open> 
+			<summary>
+				<p>Resultado:  </p>
+			</summary>
+			<%= @resultados.to_html %>
+		</details>
 	</div>
 
 	<div class="der">
-		<p> Pusieron: </p>
-		<%= @aportes.to_html %>
+		<details open> 
+			<summary>
+				<p> Pusieron: </p>
+			</summary>
+			<%= @aportes.to_html %>
+		</details>
 	</div>
 </div>
 	<div style="clear: both;"></div>
