@@ -66,32 +66,35 @@ helpers do
     generate_output(creditor, debtor, paiment)
   end
 
+  def pay(debtor, debt, creditor, creditor_amount)
+    if(debt > 0 && @actual_creditor_amount < 0)
+      @creditor_accum += debt
+      @yet_to_pay = @creditor_accum + creditor_amount
+      if( @yet_to_pay > 0 && @yet_to_pay < @individual_paiment)
+        paiment = debt - @yet_to_pay
+        balance(creditor, debtor, paiment)
+      elsif (debt < @individual_paiment)
+        balance(creditor, debtor, debt)
+      elsif (@yet_to_pay <= 0)
+        balance(creditor, debtor, @individual_paiment)
+      end
+    end
+  end
+
+  def collect(creditor, creditor_amount)
+    @actual_creditor_amount = creditor_amount
+    @creditor_accum = 0
+    @debtors.each  do |debtor, debt|
+      pay(debtor, debt,creditor, creditor_amount)
+    end
+  end
+
   def calcular(input)
     balance = prepare_data_set(input)
     @creditors, @debtors = devide_list(balance)
     @result = {}
     @creditors.each do |creditor, creditor_amount|
-      @actual_creditor_amount = creditor_amount
-      @creditor_accum = 0
-      @debtors.each  do |debtor, debt|
-
-        if(debt > 0 && @actual_creditor_amount < 0)
-          @creditor_accum += debt
-          @yet_to_pay = @creditor_accum + creditor_amount
-
-          if( @yet_to_pay > 0 && @yet_to_pay < @individual_paiment)
-            paiment = debt - @yet_to_pay
-            balance(creditor, debtor, paiment)
-
-          elsif (debt < @individual_paiment)
-            balance(creditor, debtor, debt)
-
-          elsif (@yet_to_pay <= 0)
-            balance(creditor, debtor, @individual_paiment)
-
-          end
-        end
-      end
+      collect(creditor, creditor_amount)
     end
     return @result
   end
