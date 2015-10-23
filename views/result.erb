@@ -3,7 +3,7 @@
     <p>Total:  $<%= @total %></p>
   </div>
   <div class="der">
-    <p>Pago individual: $<%=@pago_individual%><p>
+    <p>Pago individual: $<%=@individual_paiment%><p>
   </div>
 </div>
 
@@ -13,7 +13,7 @@
 			<summary>
 				<p>Resultado:  </p>
 			</summary>
-			<%= @resultados.to_html %>
+			<%= @result.to_html %>
 		</details>
 	</div>
 
@@ -22,7 +22,7 @@
 			<summary>
 				<p> Pusieron: </p>
 			</summary>
-			<%= @aportes.to_html %>
+			<%= @input.to_html %>
 		</details>
 	</div>
 </div>

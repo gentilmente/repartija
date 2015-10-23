@@ -20,78 +20,80 @@ helpers do
     @title || "Repartija"
   end
 
-  def set_aportes(nombre, pago)
-    session[:aportes][nombre.to_sym] ||= pago
+  def set_input(user_name, paiment)
+    session[:input][user_name.to_sym] ||= paiment
   end
 
-  def hard_code_aportes()
-    session[:aportes] = {
+  def hard_code_input()
+    session[:input] = {
       Bufarra: 40,
-      Martin: 600,
-      Joni: 152,
+      Martin: 378,
+      Joni: 110,
       Pedro: 0,
       Cachi: 0,
-      Gisela: 200,
+      Gisela: 172,
       Eze: 0
     }
   end
 
-  def preparar_listas(aportes)
-    @total = aportes.values.reduce(:+)
-    @pago_individual = @total/aportes.length
-    return aportes.inject({}){ |hash, (k, v)| hash.merge( k.to_sym => @pago_individual - v )  }
+  def prepare_data_set(input)
+    @total = input.values.reduce(:+)
+    @individual_paiment = @total/input.length
+    return input.inject({}) do |hash, (k, v)|
+     hash.merge( k.to_sym => @individual_paiment - v )
+   end
   end
 
-  def separar_lista(saldos)
-    acreedores, deudores = saldos.partition { |_,e| e < 0 }
-    acreedores = acreedores.to_h
-    deudores = deudores.to_h
-    return acreedores, deudores
+  def devide_list(balance)
+    creditors, debtors = balance.partition { |_,e| e < 0 }
+    creditors = creditors.to_h
+    debtors = debtors.to_h
+    return creditors, debtors
   end
 
-  def generar_salida(acreedor, deudor, pago)
-    if(!@resultados.key?(acreedor))
-      @resultados[acreedor.to_sym] = {deudor.to_sym => pago}
+  def generate_output(creditor, debtor, paiment)
+    if(!@result.key?(creditor))
+      @result[creditor.to_sym] = {debtor.to_sym => paiment}
     else
-      @resultados[acreedor].store(deudor, pago)
+      @result[creditor].store(debtor, paiment)
     end
   end
 
-  def calcular(aportes)
-    saldos = preparar_listas(aportes)
-    acreedores, deudores = separar_lista(saldos)
-    @resultados = {}
-    acreedores.each do |acreedor, monto_acr|
-      @monto_acr_actual = monto_acr
-      @acumulado = 0
-      deudores.each  do |deudor, deuda|
+  def balance(creditor, debtor, paiment)
+    @debtors[debtor] = @yet_to_pay
+    @creditors[creditor] += paiment
+    @actual_creditor_amount = @creditors[creditor]
+    generate_output(creditor, debtor, paiment)
+  end
 
-        if(deuda > 0 && @monto_acr_actual < 0)
-          @acumulado += deuda
-          @resta_pagar = @acumulado + monto_acr
+  def calcular(input)
+    balance = prepare_data_set(input)
+    @creditors, @debtors = devide_list(balance)
+    @result = {}
+    @creditors.each do |creditor, creditor_amount|
+      @actual_creditor_amount = creditor_amount
+      @creditor_accum = 0
+      @debtors.each  do |debtor, debt|
 
-          if( @resta_pagar > 0 && @resta_pagar < @pago_individual)
-            deudores[deudor] = @resta_pagar
-            acreedores[acreedor] += deuda - @resta_pagar
-            @monto_acr_actual = acreedores[acreedor]
-            generar_salida(acreedor, deudor, deuda - @resta_pagar)
+        if(debt > 0 && @actual_creditor_amount < 0)
+          @creditor_accum += debt
+          @yet_to_pay = @creditor_accum + creditor_amount
 
-          elsif (deuda < @pago_individual)
-            deudores[deudor] = 0
-            acreedores[acreedor] += deuda
-            @monto_acr_actual = acreedores[acreedor]
-            generar_salida(acreedor, deudor, deuda)
+          if( @yet_to_pay > 0 && @yet_to_pay < @individual_paiment)
+            paiment = debt - @yet_to_pay
+            balance(creditor, debtor, paiment)
 
-          elsif (@resta_pagar <= 0)
-            deudores[deudor] = 0
-            acreedores[acreedor] += @pago_individual
-            @monto_acr_actual = acreedores[acreedor]
-            generar_salida(acreedor, deudor, @pago_individual)
+          elsif (debt < @individual_paiment)
+            balance(creditor, debtor, debt)
+
+          elsif (@yet_to_pay <= 0)
+            balance(creditor, debtor, @individual_paiment)
+
           end
         end
       end
     end
-    return @resultados
+    return @result
   end
 
   def HashToHTML(hash, opts = {})
@@ -101,7 +103,8 @@ helpers do
     hash.each do |key, value|
       out += " " * (indent_level + 2) + "<li><strong>#{key}:</strong>"
       if value.is_a?(Hash)
-        out += "\n" + HashToHTML(value, :indent_level => indent_level + 2) + " " * (indent_level + 2) + "</li>\n"
+        out += "\n" + HashToHTML(value, :indent_level => indent_level + 2)
+        + " " * (indent_level + 2) + "</li>\n"
       else
         out += " <span>#{value}</span></li>\n"
       end
@@ -115,25 +118,25 @@ get '/' do
 end
 
 get '/form' do
-  session[:aportes] ||= Hash.new
+  session[:input] ||= Hash.new
   erb :form
 end
 
 post '/form' do
   @title = "Resultado"
-  @nombre = params[:nombre].chomp
+  @user_name = params[:user_name].chomp
 
   #====================== Para testing =================================
 
-  set_aportes(@nombre, params[:cantidad].to_i)
-  #hard_code_aportes()
+  set_input(@user_name, params[:cantidad].to_i)
+  #hard_code_input()
 
   #=====================================================================
 
   @finished = params[:finished]
   if @finished
-    @resultados = calcular(session[:aportes])
-    @aportes = session[:aportes]
+    @result = calcular(session[:input])
+    @input = session[:input]
     session.clear
     erb :result
   else
