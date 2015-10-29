@@ -89,7 +89,7 @@ helpers do
     end
   end
 
-  def calcular(input)
+  def calculate(input)
     balance = prepare_data_set(input)
     @creditors, @debtors = devide_list(balance)
     @result = {}
@@ -138,7 +138,7 @@ post '/form' do
 
   @finished = params[:finished]
   if @finished
-    @result = calcular(session[:input])
+    @result = calculate(session[:input])
     @input = session[:input]
     session.clear
     erb :result
