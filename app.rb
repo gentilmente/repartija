@@ -1,16 +1,18 @@
-require './store.rb'
+require './balancer.rb'
 require './room.rb'
+require( 'date' )
 
 room = Room.new
-room.add({
-      Bufarra: 40,
-      Martin: 378,
-      Joni: 110,
-      Pedro: 0,
-      Cachi: 0,
-      Gisela: 172,
-      Eze: 0
-    })
+balancer = Balancer.new
 
-store = Store.new
-store.process(room.data, room.individual_payment)
+room.add("Bufarra", 40)
+room.add("Martin", 378)
+room.add("Joni", 110)
+room.add("Pedro", 0)
+room.add("Cachi", 0)
+room.add("Gisela", 172)
+room.add("Eze", 0)
+
+
+balancer.process(room.participants)
+

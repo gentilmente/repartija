@@ -1,21 +1,30 @@
-class Store
+class Balancer
   attr_accessor :result
 
   def initialize
     @result ||= {}
   end
 
-  def process(store, individual_payment)
-    @individual_payment = individual_payment
-    @creditors, @debtors = devide_list(store)
+  def process(input)
+    balances = prepare_data_set(input)
+    @creditors, @debtors = devide_list(balances)
     @creditors.each do |creditor, creditor_amount|
       collect(creditor, creditor_amount)
     end
-    return @result
+    puts @result
   end
 
-  def devide_list(store)
-    creditors, debtors = store.partition { |_,e| e < 0 }
+  private
+  def prepare_data_set(input)
+    @total = input.values.reduce(:+)
+    @individual_payment = @total/input.length
+    return input.inject({}) do |hash, (k, v)|
+      hash.merge( k.to_sym => @individual_payment - v )
+    end
+  end
+
+  def devide_list(balances)
+    creditors, debtors = balances.partition { |_,e| e < 0 }
     creditors = creditors.to_h
     debtors = debtors.to_h
     return creditors, debtors
@@ -30,7 +39,6 @@ class Store
   end
 
   def pay(debtor, debt, creditor, creditor_amount)
-    puts "4-#{result}"
     if(debt > 0 && @actual_creditor_amount < 0)
       @creditor_accum += debt
       @yet_to_pay = @creditor_accum + creditor_amount
@@ -46,7 +54,6 @@ class Store
   end
 
   def balance(creditor, debtor, payment)
-    puts "5-#{result}"
     @debtors[debtor] = @yet_to_pay
     @creditors[creditor] += payment
     @actual_creditor_amount = @creditors[creditor]
@@ -59,6 +66,5 @@ class Store
     else
       @result[creditor].store(debtor, payment)
     end
-  	puts "6-#{result}"
   end
 end

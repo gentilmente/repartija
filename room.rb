@@ -1,18 +1,14 @@
 class Room
-  attr_accessor :data
-  attr_reader :individual_payment
+  attr_accessor :date
+  attr_reader :participants
 
-  def initialize(data = {})
-  @data = data
+  def initialize(date = DateTime.now)
+    @date = date
+    @participants ||= {}
   end
 
   public
-  def add(input)
-    @total = input.values.reduce(:+)
-    @individual_payment = @total/input.length
-    @data = input.inject({}) do |hash, (k, v)|
-      hash.merge( k.to_sym => @individual_payment - v )
-    end
+  def add(user_name, payment)
+    @participants[user_name.to_sym] ||= payment
   end
-
 end
