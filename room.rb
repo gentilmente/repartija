@@ -1,3 +1,5 @@
+require( 'date' )
+
 class Room
   attr_accessor :date
   attr_reader :participants

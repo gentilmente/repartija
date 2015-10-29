@@ -1,6 +1,5 @@
 require './balancer.rb'
 require './room.rb'
-require( 'date' )
 
 room = Room.new
 balancer = Balancer.new
