@@ -1,9 +1,9 @@
 class Store
-	attr_accessor :result
+  attr_accessor :result
 
-	def initialize
-		@result ||= {}
-	end
+  def initialize
+    @result ||= {}
+  end
 
   def process(store, individual_payment)
     @individual_payment = individual_payment
