@@ -5,17 +5,16 @@ class Store
 		@result ||= {}
 	end
 
-	def process(store)
-		puts "#{result}"
-		@creditors, @debtors = devide_list(store)
+  def process(store, individual_paiment)
+    @individual_paiment = individual_paiment
+    @creditors, @debtors = devide_list(store)
     @creditors.each do |creditor, creditor_amount|
       collect(creditor, creditor_amount)
     end
     return @result
-	end
+  end
 
   def devide_list(store)
-  	puts "#{result}"
     creditors, debtors = store.partition { |_,e| e < 0 }
     creditors = creditors.to_h
     debtors = debtors.to_h
@@ -23,16 +22,15 @@ class Store
   end
 
   def collect(creditor, creditor_amount)
-  	puts "#{result}"
     @actual_creditor_amount = creditor_amount
     @creditor_accum = 0
     @debtors.each  do |debtor, debt|
-      pay(debtor, debt,creditor, creditor_amount)
+      pay(debtor, debt, creditor, creditor_amount)
     end
   end
 
   def pay(debtor, debt, creditor, creditor_amount)
-  	puts "#{result}"
+    puts "4-#{result}"
     if(debt > 0 && @actual_creditor_amount < 0)
       @creditor_accum += debt
       @yet_to_pay = @creditor_accum + creditor_amount
@@ -48,20 +46,19 @@ class Store
   end
 
   def balance(creditor, debtor, paiment)
-  	puts "#{result}"
+    puts "5-#{result}"
     @debtors[debtor] = @yet_to_pay
     @creditors[creditor] += paiment
     @actual_creditor_amount = @creditors[creditor]
-    puts "balanstore"
     generate_output(creditor, debtor, paiment)
   end
 
   def generate_output(creditor, debtor, paiment)
-  	puts '#{result}'
     if(!@result.key?(creditor))
       @result[creditor.to_sym] = {debtor.to_sym => paiment}
     else
       @result[creditor].store(debtor, paiment)
     end
+  	puts "6-#{result}"
   end
 end

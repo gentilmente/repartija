@@ -131,8 +131,8 @@ post '/form' do
 
   #====================== Para testing =================================
 
-  set_input(@user_name, params[:cantidad].to_i)
-  #hard_code_input()
+  #set_input(@user_name, params[:cantidad].to_i)
+  hard_code_input()
 
   #=====================================================================
 

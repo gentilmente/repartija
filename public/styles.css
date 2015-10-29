@@ -6,6 +6,7 @@
 
 html {
 	/*background: url("https://dl.dropboxusercontent.com/u/2210671/party.jpg");*/
+	background-color: black;
 	background: url("images/party.jpg");
 	background-repeat: no-repeat;
 	background-attachment: fixed;

@@ -1,6 +1,7 @@
 class Room
 	attr_accessor :data
-
+	attr_reader :individual_paiment
+	
 	def initialize(data = {})
 		@data = data
 	end
