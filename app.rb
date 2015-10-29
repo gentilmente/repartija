@@ -13,4 +13,4 @@ room.add({
     })
 
 store = Store.new
-store.process(room.data, room.individual_paiment)
+store.process(room.data, room.individual_payment)
