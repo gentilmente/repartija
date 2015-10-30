@@ -11,7 +11,7 @@ class Balancer
     @creditors.each do |creditor, creditor_amount|
       collect(creditor, creditor_amount)
     end
-    puts @result
+    return @result
   end
 
   private
