@@ -1,11 +1,11 @@
+require './balancer.rb'
 require 'test/unit'
-require './app.rb'
 
 class TestRepartija < Test::Unit::TestCase
   
-  def test_one
-    balancer = Balancer.new
-    pagos = { 
+  def setup
+    @balancer = Balancer.new
+    @payments = { 
       Bufarra: 40, 
       Martin: 378,  
       Joni: 110,  
@@ -15,10 +15,18 @@ class TestRepartija < Test::Unit::TestCase
       Eze: 0  
     }
 
-    resultados = {:Martin=>{:Bufarra=>60, 
-    	:Pedro=>100, :Cachi=>100, :Eze=>18}, 
-    	:Joni=>{:Eze=>10}, :Gisela=>{:Eze=>72}}
+    @result = {:Martin=>{:Bufarra=>60, 
+      :Pedro=>100, :Cachi=>100, :Eze=>18}, 
+      :Joni=>{:Eze=>10}, :Gisela=>{:Eze=>72}}
+  end
 
-    assert_equal resultados, balancer.process(pagos)
-  end   	
+  def test_one
+    assert_equal(@balancer.process({}), {}, "empty hash must return empty hash:")
+  end
+
+  def test_two
+    assert_equal(@balancer.process(@payments), @result, "result is different from what is expected:")
+  end     
+
+
 end
