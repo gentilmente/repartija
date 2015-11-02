@@ -1,17 +1,15 @@
 require './balancer.rb'
-require './room.rb'
+require './event.rb'
 
-room = Room.new
+event = Event.new
 balancer = Balancer.new
 
-room.add("Bufarra", 40)
-room.add("Martin", 378)
-room.add("Joni", 110)
-room.add("Pedro", 0)
-room.add("Cachi", 0)
-room.add("Gisela", 172)
-room.add("Eze", 0)
+event.add("Bufarra", 40)
+event.add("Martin", 378)
+event.add("Joni", 110)
+event.add("Pedro", 0)
+event.add("Cachi", 0)
+event.add("Gisela", 172)
+event.add("Eze", 0)
 
-
-balancer.process(room.participants)
-
+balancer.process(event.participants)
