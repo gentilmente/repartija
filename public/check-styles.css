@@ -26,14 +26,14 @@
   box-sizing: border-box;
 }
 .onoffswitch-inner:before {
-  content: "Terminado";
+  content: "eres el último";
   padding-left: 16px;
   padding-top: 4px;
   background-color: #BE0027; color: #FFFFFF;
   text-align: left;
 }
 .onoffswitch-inner:after {
-  content: "Listo todos";
+  content: "soy el último";
   padding-right: 15px;
   padding-top: 4px;
   background-color: #EEEEEE; color: #999999;
