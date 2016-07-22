@@ -8,6 +8,14 @@
     <link href='http://fonts.googleapis.com/css?family=Satisfy' rel='stylesheet' type='text/css'>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="check-styles.css">
+  </head>
+  <body>
+    <h1><a href='/'>Repartija</a></h1>
+    <p class="subtitle">No mas ebrios haciendo cuentas</p>
+    <%= yield %>
+    <footer>
+      <p><a href='https://www.facebook.com/kr4neos'>Sobre nosotros</a></p>
+    </footer>
     <script>
       (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
       (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
@@ -17,14 +25,5 @@
       ga('create', 'UA-61138579-1', 'auto');
       ga('send', 'pageview');
     </script>
-  </head>
-  <body>
-    <h1><a href='/'>Repartija</a></h1>
-    <p class="subtitle">No mas ebrios haciendo cuentas</p>
-    <%= yield %>
-    <footer>
-      <p><a href='https://www.facebook.com/kr4neos'>Sobre nosotros</a></p>
-    </footer>
   </body>
-
 </html>
