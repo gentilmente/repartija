@@ -1,6 +1,6 @@
 .onoffswitch {
   position: relative;
-  width: 170px;
+  width: 180px;
   -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
   margin: auto;
 }
@@ -27,14 +27,14 @@
 }
 .onoffswitch-inner:before {
   content: "eres el último";
-  padding-left: 16px;
+  padding-left: 10px;
   padding-top: 4px;
   background-color: #BE0027; color: #FFFFFF;
   text-align: left;
 }
 .onoffswitch-inner:after {
   content: "soy el último";
-  padding-right: 15px;
+  padding-right: 10px;
   padding-top: 4px;
   background-color: #EEEEEE; color: #999999;
   text-align: right;
@@ -42,7 +42,7 @@
 .onoffswitch-switch {
   display: block; width: 30px; margin: 3px;
   background: #FFFFFF;
-  right: 132px;
+  right: 140px;
   position: absolute;
   top: 0;
   bottom: 0;
